@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Class1.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domains\DTO\" />
+      <Folder Include="Domains\Enums\" />
+      <Folder Include="Domains\Exceptions\" />
+      <Folder Include="Gateway\" />
+      <Folder Include="Services\" />
+      <Folder Include="UseCases\" />
+    </ItemGroup>
+
+</Project>

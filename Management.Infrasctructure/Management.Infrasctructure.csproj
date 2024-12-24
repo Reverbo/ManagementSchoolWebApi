@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Class1.cs" />
+      <Compile Remove="Database\Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Database\EntitiesConfiguration\" />
+      <Folder Include="Database\Entities\" />
+      <Folder Include="Database\Persistence\" />
+      <Folder Include="Database\Repositories\" />
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Database\Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Database\Migrations\**" />
+    </ItemGroup>
+
+</Project>
