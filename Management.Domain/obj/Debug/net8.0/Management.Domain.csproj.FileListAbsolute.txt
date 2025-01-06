@@ -1,0 +1,16 @@
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\bin\Debug\net8.0\Management.Domain.deps.json
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\bin\Debug\net8.0\Management.Domain.dll
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\bin\Debug\net8.0\Management.Domain.pdb
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\bin\Debug\net8.0\Management.Infrasctructure.dll
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\bin\Debug\net8.0\Management.Infrasctructure.pdb
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.csproj.AssemblyReference.cache
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.AssemblyInfoInputs.cache
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.AssemblyInfo.cs
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.sourcelink.json
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Manageme.D915A366.Up2Date
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.dll
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\refint\Management.Domain.dll
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\Management.Domain.pdb
+C:\Users\Reinan\RiderProjects\ManagementSchools\Management.Domain\obj\Debug\net8.0\ref\Management.Domain.dll

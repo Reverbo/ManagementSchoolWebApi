@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,8 +20,11 @@
       <Folder Include="Domains\Enums\" />
       <Folder Include="Domains\Exceptions\" />
       <Folder Include="Gateway\" />
-      <Folder Include="Services\" />
       <Folder Include="UseCases\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Management.Infrasctructure\Management.Infrasctructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -9,15 +9,16 @@
     <ItemGroup>
       <Compile Remove="Class1.cs" />
       <Compile Remove="Database\Migrations\**" />
+      <Compile Remove="Migrations\MongoDbContext.cs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
+      <PackageReference Include="MongoDB.EntityFrameworkCore" Version="8.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Database\EntitiesConfiguration\" />
-      <Folder Include="Database\Entities\" />
       <Folder Include="Database\Persistence\" />
       <Folder Include="Database\Repositories\" />
       <Folder Include="Migrations\" />

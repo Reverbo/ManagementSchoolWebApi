@@ -554,6 +554,36 @@
         "runtime": {
           "lib/net7.0/ZstdSharp.dll": {}
         }
+      },
+      "Management.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AutoMapper": "13.0.1",
+          "Management.Infrasctructure": "1.0.0",
+          "MongoDB.Driver": "3.1.0"
+        },
+        "compile": {
+          "bin/placeholder/Management.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Management.Domain.dll": {}
+        }
+      },
+      "Management.Infrasctructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AutoMapper": "13.0.1",
+          "MongoDB.Driver": "3.1.0",
+          "MongoDB.EntityFrameworkCore": "8.2.1"
+        },
+        "compile": {
+          "bin/placeholder/Management.Infrasctructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Management.Infrasctructure.dll": {}
+        }
       }
     }
   },
@@ -1708,6 +1738,16 @@
         "zstdsharp.port.0.7.3.nupkg.sha512",
         "zstdsharp.port.nuspec"
       ]
+    },
+    "Management.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Management.Domain/Management.Domain.csproj",
+      "msbuildProject": "../Management.Domain/Management.Domain.csproj"
+    },
+    "Management.Infrasctructure/1.0.0": {
+      "type": "project",
+      "path": "../Management.Infrasctructure/Management.Infrasctructure.csproj",
+      "msbuildProject": "../Management.Infrasctructure/Management.Infrasctructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1715,6 +1755,8 @@
       "AutoMapper >= 13.0.1",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 12.0.1",
       "FluentValidation >= 11.11.0",
+      "Management.Domain >= 1.0.0",
+      "Management.Infrasctructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.11",
       "MongoDB.Driver >= 3.1.0",
       "MongoDB.EntityFrameworkCore >= 8.2.1",
@@ -1745,7 +1787,14 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj": {
+              "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj"
+            },
+            "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj": {
+              "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
