@@ -1,92 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj": {}
+    "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Domain\\Management.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj": {
+    "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Domain\\Management.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Domain\\Management.Domain.csproj",
         "projectName": "Management.Domain",
-        "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\Management.Domain.csproj",
-        "packagesPath": "C:\\Users\\Reinan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Domain\\Management.Domain.csproj",
+        "packagesPath": "C:\\Users\\Oberdan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Reinan\\AppData\\Roaming\\NuGet\\NuGet.Config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj": {
-                "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
-            "MongoDB.Driver": {
-              "target": "Package",
-              "version": "[3.1.0, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Reinan\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj",
-        "projectName": "Management.Infrasctructure",
-        "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\Management.Infrasctructure.csproj",
-        "packagesPath": "C:\\Users\\Reinan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Infrasctructure\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\Reinan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Oberdan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -104,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -117,15 +40,17 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[13.0.1, )"
+              "version": "[12.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.1.0, )"
-            },
-            "MongoDB.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.2.1, )"
             }
           },
           "imports": [
@@ -144,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Reinan\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

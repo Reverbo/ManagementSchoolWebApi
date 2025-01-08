@@ -11,20 +11,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Domains\DTO\" />
-      <Folder Include="Domains\Enums\" />
-      <Folder Include="Domains\Exceptions\" />
-      <Folder Include="Gateway\" />
-      <Folder Include="UseCases\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Management.Infrasctructure\Management.Infrasctructure.csproj" />
     </ItemGroup>
 
 </Project>

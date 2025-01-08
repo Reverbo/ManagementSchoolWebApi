@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Tests\\Management.Tests.csproj": {}
+    "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Tests\\Management.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Tests\\Management.Tests.csproj": {
+    "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Tests\\Management.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Tests\\Management.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Tests\\Management.Tests.csproj",
         "projectName": "Management.Tests",
-        "projectPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Tests\\Management.Tests.csproj",
-        "packagesPath": "C:\\Users\\Reinan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Reinan\\RiderProjects\\ManagementSchools\\Management.Tests\\obj\\",
+        "projectPath": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Tests\\Management.Tests.csproj",
+        "packagesPath": "C:\\Users\\Oberdan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Oberdan\\Estudos\\ManagementSchoolWebApi\\Management.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Reinan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Oberdan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,21 +32,12 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.11.0, )"
@@ -84,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\Reinan\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

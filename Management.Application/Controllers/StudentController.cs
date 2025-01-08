@@ -1,13 +1,8 @@
-using System.Diagnostics;
-using System.Security.Claims;
-using Management.Domain.Services;
-using Management.Infrasctructure.Database.Entities;
-using Management.Infrasctructure.Database.EntitiesConfiguration;
-using Microsoft.AspNetCore.Authentication;
+using AutoMapper;
+using Management.Domain.Domains.DTO.Students;
+using Management.Domain.UseCases.Students;
+using Management.Resource.Student;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 
 namespace Management.Controllers;
@@ -16,36 +11,21 @@ namespace Management.Controllers;
 [ApiController]
 public class StudentController : ControllerBase
 {
-    private readonly StudentsServices _studentServices;
+    private readonly IStudentCrudUseCase _studentCrudUseCase;
+    private readonly IMapper _mapper;
 
-    public StudentController(StudentsServices studentServices)
+    public StudentController(IStudentCrudUseCase studentServices, IMapper mapper)
     {
-        _studentServices = studentServices;
+        _studentCrudUseCase = studentServices;
+        _mapper = mapper;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Student newStudent)
+    public async Task<IActionResult> Create(StudentResource newStudent)
     {
-        await _studentServices.CreaterAsync(newStudent);
-
-        return CreatedAtAction(nameof(Post), new { Name = newStudent.FirstName }, newStudent);
-    }
-
-    [HttpGet("diagnostic")]
-    public IActionResult Diagnostic()
-    {
-        try
-        {
-            var client = new MongoClient("mongodb://root:example@mongo:27017/?authSource=admin");
-            var database = client.GetDatabase("ManagementDatabase");
-            var command = new BsonDocument("ping", 1);
-            var result = database.RunCommand<BsonDocument>(command);
-            return Ok(result.ToJson());
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-
-        }
+        var studentRequestDto = _mapper.Map<StudentDTO>(newStudent) ;
+        var student = await _studentCrudUseCase.Create(studentRequestDto);
+        var response = _mapper.Map<StudentResource>(student);
+        return Ok(response);
     }
 }
