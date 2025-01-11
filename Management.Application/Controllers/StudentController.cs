@@ -21,9 +21,9 @@ public class StudentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(StudentResource newStudent)
+    public async Task<IActionResult> Create(StudentResource studentRequest)
     {
-        var studentRequestDto = _mapper.Map<StudentDTO>(newStudent) ;
+        var studentRequestDto = _mapper.Map<StudentDTO>(studentRequest) ;
         var student = await _studentCrudUseCase.Create(studentRequestDto);
         var response = _mapper.Map<StudentResource>(student);
         return Ok(response);
