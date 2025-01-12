@@ -5,6 +5,7 @@ using Management.Infrasctructure.Database.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+
 namespace Management.Infrastructure.Database.Repositories;
 
 public class StudentRepository : IStudentReposityGateway
@@ -25,5 +26,17 @@ public class StudentRepository : IStudentReposityGateway
         await _students.InsertOneAsync(studentEntity);
 
         return _mapper.Map<StudentDTO>(studentEntity);
+    }
+
+    public async Task<StudentDTO> GetById(string studentId)
+    {
+        var id = new ObjectId(studentId);
+        var student = await _students.Find(student => student.Id == id).FirstOrDefaultAsync();
+        if (student == null)
+        {
+            return null;
+        }
+        
+        return _mapper.Map<StudentDTO>(student);;
     }
 }

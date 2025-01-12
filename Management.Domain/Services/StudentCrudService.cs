@@ -17,4 +17,11 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         return await _studentReposityGateway.Create(student);
     }
+
+    public async Task<StudentDTO> GetById(string studentId)
+    {
+        return await _studentReposityGateway.GetById(studentId);
+    }
+
+    
 }

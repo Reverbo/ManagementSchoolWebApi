@@ -32,6 +32,7 @@ public static class DependecyInjection
         
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
         services.AddScoped<IStudentReposityGateway, StudentRepository>();
+        
 
         return services;
     }

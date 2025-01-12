@@ -12,6 +12,9 @@
       <Compile Remove="Class1.cs" />
       <Compile Remove="Database\Migrations\**" />
       <Compile Remove="Migrations\MongoDbContext.cs" />
+      <Compile Remove="Database\Entities\TeacherEntity.cs" />
+      <Compile Remove="Database\Entities\DirectorEntity.cs" />
+      <Compile Remove="Database\Entities\ClassEntity.cs" />
     </ItemGroup>
 
     <ItemGroup>

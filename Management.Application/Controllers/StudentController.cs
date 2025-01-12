@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/student")]
 [ApiController]
 public class StudentController : ControllerBase
 {
@@ -21,11 +21,19 @@ public class StudentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(StudentResource newStudent)
+    public async Task<IActionResult> Create(StudentResource studentRequest)
     {
-        var studentRequestDto = _mapper.Map<StudentDTO>(newStudent) ;
+        var studentRequestDto = _mapper.Map<StudentDTO>(studentRequest) ;
         var student = await _studentCrudUseCase.Create(studentRequestDto);
         var response = _mapper.Map<StudentResource>(student);
-        return Ok(response);
+        return StatusCode(200, response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetById(string id)
+    {
+        var getStudent = await _studentCrudUseCase.GetById(id);
+        var response = _mapper.Map<StudentResource>(getStudent);
+        return StatusCode(200, response);
     }
 }
