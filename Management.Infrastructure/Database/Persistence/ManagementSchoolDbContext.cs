@@ -10,6 +10,7 @@ public class ManagementSchoolDbContext : DbContext
     }
 
     public DbSet<StudentEntity> StudentEntities { get; set; }
+    public DbSet<TeacherEntity> TeacherEntities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
