@@ -1,8 +1,8 @@
 namespace Management.Domain.Domains.DTO.Teachers;
 
-public class TeacherDTO
+public class TeacherDto
 {
-    public required int Id { get; set; }
+    public string Id { get; set; }
 
     public required string FullName { get; set; }
 

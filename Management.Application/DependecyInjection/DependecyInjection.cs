@@ -1,6 +1,8 @@
 using Management.Domain.Gateway.Student;
+using Management.Domain.Gateway.Teacher;
 using Management.Domain.Services;
 using Management.Domain.UseCases.Students;
+using Management.Domain.UseCases.Teachers;
 using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Repositories;
 using Management.Mappings;
@@ -28,10 +30,16 @@ public static class DependecyInjection
 
         services.AddControllers();
 
-        services.AddAutoMapper(typeof(ResourceToDtoProfileStudents));
+        services.AddAutoMapper(
+            typeof(ResourceToDtoProfileStudents),
+            typeof(ResourceToDtoProfileTeacher)
+            );
         
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
         services.AddScoped<IStudentReposityGateway, StudentRepository>();
+        
+        services.AddScoped<ITeacherCrudUseCase, TeacherCrudService>();
+        services.AddScoped<ITeacherRepositoryGateway, TeacherRepository>();
 
         return services;
     }

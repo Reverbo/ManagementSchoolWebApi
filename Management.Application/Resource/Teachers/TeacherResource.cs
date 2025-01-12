@@ -2,7 +2,7 @@ namespace Management.Resource.Teachers;
 
 public class TeacherResource
 {
-    public required int Id { get; set; }
+    public string? Id { get; set; }
 
     public required string FullName { get; set; }
 

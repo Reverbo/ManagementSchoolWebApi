@@ -4,9 +4,9 @@ namespace Management.Domain.UseCases.Teachers;
 
 public interface ITeacherCrudUseCase
 {
-    Task<TeacherDTO> Create(TeacherDTO teacher);
-    Task<TeacherDTO> Update(TeacherDTO teacher);
-    Task<TeacherDTO> Delete(TeacherDTO teacher);
-    Task<TeacherDTO> GetAll(TeacherDTO teacher);
-    Task<TeacherDTO> GetById(TeacherDTO teacher);
+    Task<TeacherDto> Create(TeacherDto teacher);
+    Task<TeacherDto> Update(TeacherDto teacher, String teacherId);
+    Task<TeacherDto> Delete(String teacherId);
+    Task<ICollection<TeacherDto>> GetAll();
+    Task<TeacherDto> GetById(String teacherId);
 }

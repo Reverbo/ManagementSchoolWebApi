@@ -4,9 +4,9 @@ namespace Management.Domain.Gateway.Teacher;
 
 public interface ITeacherRepositoryGateway
 {
-    Task<TeacherDTO> Create(TeacherDTO teacher);
-    Task<TeacherDTO?> Update(TeacherDTO teacher);
-    void Delete(TeacherDTO teacher);
-    Task<TeacherDTO[]?> GetAll(TeacherDTO teacher);
-    Task<TeacherDTO?> GetById(TeacherDTO teacher);
+    Task<TeacherDto> Create(TeacherDto teacher);
+    Task<TeacherDto?> Update(TeacherDto teacher, string teacherId);
+    Task<TeacherDto?> Delete(String teacherId);
+    Task<List<TeacherDto>> GetAll();
+    Task<TeacherDto?> GetById(string teacherId);
 }
