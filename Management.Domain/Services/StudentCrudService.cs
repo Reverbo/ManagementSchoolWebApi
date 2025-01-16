@@ -19,45 +19,43 @@ public class StudentCrudService : IStudentCrudUseCase
         return await _studentReposityGateway.Create(student);
     }
 
-    public async Task<StudentDTO> GetById(string studentId)
-    {
-        var getId =  await _studentReposityGateway.GetById(studentId);
-
-        if (getId == null)
-        {
-            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
-        }
-        
-        return getId;
-    }
-
     public async Task<StudentDTO> Update(StudentDTO student, string studentId)
     {
-       var updateId =  await _studentReposityGateway.Update(student, studentId);
+       var updateStudent =  await _studentReposityGateway.Update(student, studentId);
 
-       if (updateId == null)
+       if (updateStudent == null)
        { 
            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
        }
        
-       return updateId;
+       return updateStudent;
     }
 
     public async Task<StudentDTO> Delete(string studentId)
     {
-        var deleteId = await _studentReposityGateway.Delete(studentId);
+        var deleteStudent = await _studentReposityGateway.Delete(studentId);
 
-        if (deleteId == null)
+        if (deleteStudent == null)
         { 
             throw new StudentException(404, $"Teacher with ID {studentId} not found.");
         }
         
-        return deleteId;
+        return deleteStudent;
     }
-
+    
     public async Task<List<StudentDTO>> GetAll()
     {
         return await _studentReposityGateway.GetAll();
     }
-    
+    public async Task<StudentDTO> GetById(string studentId)
+    {
+        var existingId=  await _studentReposityGateway.GetById(studentId);
+
+        if (existingId == null)
+        {
+            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
+        }
+        
+        return existingId;
+    }
 }
