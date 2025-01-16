@@ -39,6 +39,9 @@
 
   <ItemGroup>
     <Compile Remove="Factories\StudentServices.cs" />
+    <Compile Remove="Resource\Student\DirectorResouce.cs" />
+    <Compile Remove="Resource\Student\ClassResouce.cs" />
+    <Compile Remove="Resource\Student\TeacherResouce.cs" />
   </ItemGroup>
 
 </Project>
