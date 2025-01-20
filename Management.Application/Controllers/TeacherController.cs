@@ -25,7 +25,7 @@ public class TeacherController : ControllerBase
     {
         try
         {
-            var teacherRequestDto = _mapper.Map<TeacherDto>(teacherRequest);
+            var teacherRequestDto = _mapper.Map<TeacherDTO>(teacherRequest);
             var teacher = await _teacherCrudUseCase.Create(teacherRequestDto);
             var response = _mapper.Map<TeacherResource>(teacher);
             return StatusCode(201, response);
@@ -41,7 +41,7 @@ public class TeacherController : ControllerBase
     {
         try
         {
-            var teacherRequestDto = _mapper.Map<TeacherDto>(teacherRequest);
+            var teacherRequestDto = _mapper.Map<TeacherDTO>(teacherRequest);
             var teacher = await _teacherCrudUseCase.Update(teacherRequestDto, teacherId);
             var response = _mapper.Map<TeacherResource>(teacher);
             return StatusCode(200, response);

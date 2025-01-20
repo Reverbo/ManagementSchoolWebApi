@@ -1,6 +1,6 @@
 namespace Management.Domain.Domains.DTO.Teachers;
 
-public class TeacherDto
+public class TeacherDTO
 {
     public string Id { get; set; }
 

@@ -18,15 +18,15 @@ public class TeacherRepository : ITeacherRepositoryGateway
         _mapper = mapper;
     }
 
-    public async Task<TeacherDto> Create(TeacherDto teacher)
+    public async Task<TeacherDTO> Create(TeacherDTO teacher)
     {
         var teacherEntity = _mapper.Map<TeacherEntity>(teacher);
         teacherEntity.Id = ObjectId.GenerateNewId();
         await _teachers.InsertOneAsync(teacherEntity);
-        return _mapper.Map<TeacherDto>(teacherEntity);
+        return _mapper.Map<TeacherDTO>(teacherEntity);
     }
 
-    public async Task<TeacherDto?> Update(TeacherDto teacher, string teacherId)
+    public async Task<TeacherDTO?> Update(TeacherDTO teacher, string teacherId)
     {
         var teacherObjectIdId = new ObjectId(teacherId);
 
@@ -55,10 +55,10 @@ public class TeacherRepository : ITeacherRepositoryGateway
 
         var updatedEntity = await _teachers.Find(item => item.Id == teacherObjectIdId).FirstOrDefaultAsync();
 
-        return _mapper.Map<TeacherDto>(updatedEntity);
+        return _mapper.Map<TeacherDTO>(updatedEntity);
     }
 
-    public async Task<TeacherDto?> Delete(string teacherId)
+    public async Task<TeacherDTO?> Delete(string teacherId)
     {
         var teacherObjectId = new ObjectId(teacherId);
         var entityToDelete =
@@ -73,17 +73,17 @@ public class TeacherRepository : ITeacherRepositoryGateway
 
         await _teachers.DeleteOneAsync(item => item.Id == teacherObjectId);
 
-        return _mapper.Map<TeacherDto>(entityToDelete);
+        return _mapper.Map<TeacherDTO>(entityToDelete);
     }
 
-    public async Task<List<TeacherDto>> GetAll()
+    public async Task<List<TeacherDTO>> GetAll()
     {
         var teacherList = await _teachers.Find(_ => true).ToListAsync();
 
-        return _mapper.Map<List<TeacherDto>>(teacherList).ToList();
+        return _mapper.Map<List<TeacherDTO>>(teacherList).ToList();
     }
 
-    public async Task<TeacherDto?> GetById(string teacherId)
+    public async Task<TeacherDTO?> GetById(string teacherId)
     {
         var teacherObjectId = new ObjectId(teacherId);
         var entityFind = await _teachers.Find(item => item.Id == teacherObjectId).FirstOrDefaultAsync();
@@ -93,6 +93,6 @@ public class TeacherRepository : ITeacherRepositoryGateway
             return null;
         }
 
-        return _mapper.Map<TeacherDto>(entityFind);
+        return _mapper.Map<TeacherDTO>(entityFind);
     }
 }

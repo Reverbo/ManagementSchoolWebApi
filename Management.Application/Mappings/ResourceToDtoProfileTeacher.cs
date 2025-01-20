@@ -9,7 +9,7 @@ public class ResourceToDtoProfileTeacher : Profile
 {
     public ResourceToDtoProfileTeacher()
     {
-        CreateMap<TeacherResource, TeacherDto>().ReverseMap();
-        CreateMap<TeacherDto, TeacherEntity>().ReverseMap();
+        CreateMap<TeacherResource, TeacherDTO>().ReverseMap();
+        CreateMap<TeacherDTO, TeacherEntity>().ReverseMap();
     }
 }
