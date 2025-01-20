@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MongoDB.EntityFrameworkCore.Extensions;
 
-namespace Management.Infrasctructure.Database.EntitiesConfiguration;
+namespace Management.Infrastructure.Database.EntitiesConfiguration;
 
 public class StudentDatabaseConfiguration : IEntityTypeConfiguration<StudentEntity>
 {

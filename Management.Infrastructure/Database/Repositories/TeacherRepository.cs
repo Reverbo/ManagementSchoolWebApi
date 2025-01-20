@@ -86,13 +86,13 @@ public class TeacherRepository : ITeacherRepositoryGateway
     public async Task<TeacherDTO?> GetById(string teacherId)
     {
         var teacherObjectId = new ObjectId(teacherId);
-        var entityFind = await _teachers.Find(item => item.Id == teacherObjectId).FirstOrDefaultAsync();
+        var teacher = await _teachers.Find(item => item.Id == teacherObjectId).FirstOrDefaultAsync();
 
-        if (entityFind == null)
+        if (teacher == null)
         {
             return null;
         }
 
-        return _mapper.Map<TeacherDTO>(entityFind);
+        return _mapper.Map<TeacherDTO>(teacher);
     }
 }

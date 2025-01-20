@@ -1,6 +1,8 @@
+using Management.Domain.Gateway.Average;
 using Management.Domain.Gateway.Student;
 using Management.Domain.Gateway.Teacher;
 using Management.Domain.Services;
+using Management.Domain.UseCases.Average;
 using Management.Domain.UseCases.Students;
 using Management.Domain.UseCases.Teachers;
 using Management.Infrasctructure.Database.Entities;
@@ -32,7 +34,8 @@ public static class DependecyInjection
 
         services.AddAutoMapper(
             typeof(ResourceToDtoProfileStudents),
-            typeof(ResourceToDtoProfileTeacher)
+            typeof(ResourceToDtoProfileTeacher),
+            typeof(ResourceToDtoProfileAverage)
             );
         
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
@@ -40,6 +43,9 @@ public static class DependecyInjection
         
         services.AddScoped<ITeacherCrudUseCase, TeacherCrudService>();
         services.AddScoped<ITeacherRepositoryGateway, TeacherRepository>();
+        
+        services.AddScoped<IAverageCrudUseCase, AverageCrudService>();
+        services.AddScoped<IAverageRepositoryGateway, AverageRepository>();
 
         return services;
     }

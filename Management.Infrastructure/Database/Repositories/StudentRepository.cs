@@ -22,16 +22,14 @@ public class StudentRepository : IStudentReposityGateway
     {
         var studentEntity = _mapper.Map<StudentEntity>(student);
         studentEntity.Id = ObjectId.GenerateNewId();
-
         await _students.InsertOneAsync(studentEntity);
-
         return _mapper.Map<StudentDTO>(studentEntity);
     }
     
-    public async Task<StudentDTO> Update(StudentDTO student, string studentId)
+    public async Task<StudentDTO?> Update(StudentDTO student, string studentId)
     {
-        var objectId = new ObjectId(studentId);
-        var existingStudent = await _students.Find(student => student.Id == objectId).FirstOrDefaultAsync();
+        var studentObjectId = new ObjectId(studentId);
+        var existingStudent = await _students.Find(item => item.Id == studentObjectId).FirstOrDefaultAsync();
 
         if (existingStudent == null )
         {
@@ -41,27 +39,27 @@ public class StudentRepository : IStudentReposityGateway
         existingStudent.FirstName = student.FirstName;
         existingStudent.Age = student.Age;
         
-        var result = await _students.ReplaceOneAsync(item => item.Id == objectId, existingStudent);
+        var result = await _students.ReplaceOneAsync(item => item.Id == studentObjectId, existingStudent);
         
         if (!result.IsAcknowledged)
         {
             return null;
         }
-        var updateStudent = await _students.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var updateStudent = await _students.Find(item => item.Id == studentObjectId).FirstOrDefaultAsync();
         return _mapper.Map<StudentDTO>(updateStudent);
     }
 
-    public async Task<StudentDTO> Delete(string studentId)
+    public async Task<StudentDTO?> Delete(string studentId)
     {
-        var objectId = new ObjectId(studentId);
-        var existingStudent = await _students.Find(student => student.Id == objectId).FirstOrDefaultAsync();
+        var studentObjectId = new ObjectId(studentId);
+        var existingStudent = await _students.Find(student => student.Id == studentObjectId).FirstOrDefaultAsync();
 
         if (existingStudent == null)
         {
             return null;
         }
         
-        await _students.DeleteOneAsync(item => item.Id == objectId);
+        await _students.DeleteOneAsync(item => item.Id == studentObjectId);
         
         return _mapper.Map<StudentDTO>(existingStudent);
     }
@@ -73,15 +71,15 @@ public class StudentRepository : IStudentReposityGateway
      return _mapper.Map<List<StudentDTO>>(students).ToList();
     }
     
-    public async Task<StudentDTO> GetById(string studentId)
+    public async Task<StudentDTO?> GetById(string studentId)
     {
-        var objectId = new ObjectId(studentId);
-        var student = await _students.Find(student => student.Id == objectId).FirstOrDefaultAsync();
-        if (student == null)
+        var studentObjectId = new ObjectId(studentId);
+        var existingStudent = await _students.Find(student => student.Id == studentObjectId).FirstOrDefaultAsync();
+        if (existingStudent == null)
         {
             return null;
         }
         
-        return _mapper.Map<StudentDTO>(student);;
+        return _mapper.Map<StudentDTO>(existingStudent);;
     }
 }

@@ -33,14 +33,14 @@ public class StudentCrudService : IStudentCrudUseCase
 
     public async Task<StudentDTO> Delete(string studentId)
     {
-        var deleteStudent = await _studentReposityGateway.Delete(studentId);
+        var existingStudent = await _studentReposityGateway.Delete(studentId);
 
-        if (deleteStudent == null)
+        if (existingStudent == null)
         { 
             throw new StudentException(404, $"Teacher with ID {studentId} not found.");
         }
         
-        return deleteStudent;
+        return existingStudent;
     }
     
     public async Task<List<StudentDTO>> GetAll()
@@ -49,13 +49,13 @@ public class StudentCrudService : IStudentCrudUseCase
     }
     public async Task<StudentDTO> GetById(string studentId)
     {
-        var existingId=  await _studentReposityGateway.GetById(studentId);
+        var existingStudent=  await _studentReposityGateway.GetById(studentId);
 
-        if (existingId == null)
+        if (existingStudent == null)
         {
             throw new StudentException(404, $"Teacher with ID {studentId} not found.");
         }
         
-        return existingId;
+        return existingStudent;
     }
 }

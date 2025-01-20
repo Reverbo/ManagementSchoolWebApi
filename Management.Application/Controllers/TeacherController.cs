@@ -71,8 +71,8 @@ public class TeacherController : ControllerBase
     {
         try
         {
-            var teacher = await _teacherCrudUseCase.GetAll();
-            var response = _mapper.Map<List<TeacherResource>>(teacher);
+            var teacherList = await _teacherCrudUseCase.GetAll();
+            var response = _mapper.Map<List<TeacherResource>>(teacherList);
             return StatusCode(200, response);
         }
         catch (TeacherException exception)
@@ -81,7 +81,7 @@ public class TeacherController : ControllerBase
         }
     }
 
-    [HttpGet("{teacherId}")]
+    [HttpGet("id/{teacherId}")]
     public async Task<IActionResult> GetById(string teacherId)
     {
         try

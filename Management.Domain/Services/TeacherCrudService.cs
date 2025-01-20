@@ -21,14 +21,14 @@ public class TeacherCrudService : ITeacherCrudUseCase
 
     public async Task<TeacherDTO> Update(TeacherDTO teacher, string teacherId)
     {
-        var updated = await _teacherRepositoryGateway.Update(teacher, teacherId);
+        var updatedTeacher = await _teacherRepositoryGateway.Update(teacher, teacherId);
         
-        if (updated == null)
+        if (updatedTeacher == null)
         {
             throw new TeacherException(404, $"Teacher with ID {teacherId} not found.");
         }
         
-        return updated;
+        return updatedTeacher;
     }
 
     public async Task<TeacherDTO> Delete(string teacherId)

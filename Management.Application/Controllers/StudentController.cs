@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Management.Controllers;
 
 [Route("api/student")]
-[ApiController]
+
 public class StudentController : ControllerBase
 {
     private readonly IStudentCrudUseCase _studentCrudUseCase;
@@ -29,7 +29,7 @@ public class StudentController : ControllerBase
             var studentCreateDto = _mapper.Map<StudentDTO>(studentRequest) ;
             var student = await _studentCrudUseCase.Create(studentCreateDto);
             var response = _mapper.Map<StudentResource>(student);
-            return StatusCode(200, response);
+            return StatusCode(201, response);
         }
         catch (StudentException exception)
         {
@@ -43,9 +43,9 @@ public class StudentController : ControllerBase
     { 
         try
         {
-           var studentDto = _mapper.Map<StudentDTO>(studentRequest);
-           var updateStudent = await _studentCrudUseCase.Update(studentDto, studentId);
-           var response =_mapper.Map<StudentResource>(updateStudent);
+           var studentCreateDto = _mapper.Map<StudentDTO>(studentRequest);
+           var student = await _studentCrudUseCase.Update(studentCreateDto, studentId);
+           var response =_mapper.Map<StudentResource>(student);
            return StatusCode(200, response);
         }
         catch (StudentException exception)
@@ -60,9 +60,8 @@ public class StudentController : ControllerBase
     {
         try
         { 
-            var student = await _studentCrudUseCase.Delete(studentId);  
-            var response =_mapper.Map<StudentResource>(student);
-            return StatusCode(200, response);
+            await _studentCrudUseCase.Delete(studentId);  
+            return StatusCode(204);
         }
         catch (StudentException exception)
         {
@@ -75,8 +74,8 @@ public class StudentController : ControllerBase
     {
         try
         { 
-            var student = await _studentCrudUseCase.GetAll();
-            var response = _mapper.Map<List<StudentResource>>(student);
+            var studentList = await _studentCrudUseCase.GetAll();
+            var response = _mapper.Map<List<StudentResource>>(studentList);
             return StatusCode(200, response);
         }
         catch (StudentException exception)
@@ -85,13 +84,13 @@ public class StudentController : ControllerBase
         }
     }
     
-    [HttpGet("{studentId}")] 
+    [HttpGet("id/{studentId}")] 
     public async Task<IActionResult> GetById(string studentId)
     {
         try
         {
-            var studentGetCreateDto = await _studentCrudUseCase.GetById(studentId);
-            var response = _mapper.Map<StudentResource>(studentGetCreateDto);
+            var student = await _studentCrudUseCase.GetById(studentId);
+            var response = _mapper.Map<StudentResource>(student);
             return StatusCode(200, response);
         }
         catch (StudentException exception)
