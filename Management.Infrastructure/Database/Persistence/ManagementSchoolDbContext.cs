@@ -1,4 +1,5 @@
 using Management.Infrasctructure.Database.Entities;
+using Management.Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management.Infrasctructure.Database.Persistence;
@@ -11,6 +12,7 @@ public class ManagementSchoolDbContext : DbContext
 
     public DbSet<StudentEntity> StudentEntities { get; set; }
     public DbSet<TeacherEntity> TeacherEntities { get; set; }
+    public DbSet<ClassroomEntity> ClassroomEntities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

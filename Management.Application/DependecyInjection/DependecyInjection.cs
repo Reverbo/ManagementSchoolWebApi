@@ -1,6 +1,9 @@
+using Management.Domain.Gateway;
+using Management.Domain.Gateway.Classroom;
 using Management.Domain.Gateway.Student;
 using Management.Domain.Gateway.Teacher;
 using Management.Domain.Services;
+using Management.Domain.UseCases.Classroom;
 using Management.Domain.UseCases.Students;
 using Management.Domain.UseCases.Teachers;
 using Management.Infrasctructure.Database.Entities;
@@ -31,12 +34,16 @@ public static class DependecyInjection
         services.AddControllers();
 
         services.AddAutoMapper(
-            typeof(ResourceToDtoProfileStudents),
-            typeof(ResourceToDtoProfileTeacher)
+            typeof(ResourceToDtoProfileStudent),
+            typeof(ResourceToDtoProfileTeacher),
+            typeof(ResourceToDtoProfileClassroom)
             );
         
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
         services.AddScoped<IStudentReposityGateway, StudentRepository>();
+
+        services.AddScoped<IClassroomCrudUseCases, ClassroomCrudService>();
+        services.AddScoped<IClassroomRepositoryGateway, ClassroomRepository>();
         
         services.AddScoped<ITeacherCrudUseCase, TeacherCrudService>();
         services.AddScoped<ITeacherRepositoryGateway, TeacherRepository>();

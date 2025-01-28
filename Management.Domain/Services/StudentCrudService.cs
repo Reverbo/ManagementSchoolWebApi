@@ -18,14 +18,14 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         return await _studentReposityGateway.Create(student);
     }
-
+    
     public async Task<StudentDTO> Update(StudentDTO student, string studentId)
     {
        var updateStudent =  await _studentReposityGateway.Update(student, studentId);
 
        if (updateStudent == null)
        { 
-           throw new StudentException(404, $"Teacher with ID {studentId} not found.");
+           throw new StudentException(404, $"Student with ID {studentId} not found.");
        }
        
        return updateStudent;
@@ -37,7 +37,7 @@ public class StudentCrudService : IStudentCrudUseCase
 
         if (deleteStudent == null)
         { 
-            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
+            throw new StudentException(404, $"Student with ID {studentId} not found.");
         }
         
         return deleteStudent;
@@ -53,7 +53,7 @@ public class StudentCrudService : IStudentCrudUseCase
 
         if (existingId == null)
         {
-            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
+            throw new StudentException(404, $"Student with ID {studentId} not found.");
         }
         
         return existingId;
