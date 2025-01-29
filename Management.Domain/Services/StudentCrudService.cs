@@ -23,14 +23,14 @@ public class StudentCrudService : IStudentCrudUseCase
     {
        await ValidateStudentExistence(studentId);
        
-       return await _studentReposityGateway.Update(student, studentId);;
+       return await _studentReposityGateway.Update(student, studentId);
     }
 
     public async Task<StudentDTO> Delete(string studentId)
     {
         await ValidateStudentExistence(studentId);
         
-        return await _studentReposityGateway.Delete(studentId);;
+        return await _studentReposityGateway.Delete(studentId);
     }
     
     public async Task<List<StudentDTO>> GetAll()
@@ -41,7 +41,7 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         await ValidateStudentExistence(studentId);
         
-        return await _studentReposityGateway.GetById(studentId);;
+        return await _studentReposityGateway.GetById(studentId);
     }
     
     private async Task ValidateStudentExistence(string studentId)

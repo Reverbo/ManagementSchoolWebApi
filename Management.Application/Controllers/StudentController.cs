@@ -22,7 +22,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(StudentDTO studentRequest)
+    public async Task<IActionResult> Create(StudentResource studentRequest)
     {
         try
         {
@@ -39,7 +39,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpPut("{studentId}")]
-    public async Task<IActionResult> Update(StudentDTO studentRequest, string studentId)
+    public async Task<IActionResult> Update(StudentResource studentRequest, string studentId)
     { 
         try
         {
@@ -60,9 +60,8 @@ public class StudentController : ControllerBase
     {
         try
         { 
-            var student = await _studentCrudUseCase.Delete(studentId);  
-            var response =_mapper.Map<StudentResource>(student);
-            return StatusCode(204, response);
+            await _studentCrudUseCase.Delete(studentId);  
+            return StatusCode(204);
         }
         catch (StudentException exception)
         {
