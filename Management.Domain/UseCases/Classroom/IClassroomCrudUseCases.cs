@@ -8,9 +8,9 @@ public interface IClassroomCrudUseCases
     Task<ClassroomResponseDTO> Create(ClassroomDTO classroom);
 
     Task<ClassroomResponseDTO?> Update(ClassroomDTO classroomDto, string classroomId);
-    Task<ClassroomResponseDTO?> AddStudent(ClassroomDTO classroomDto, string classroomId);
+    Task<ClassroomResponseDTO?> AddStudents(ClassroomDTO classroomDto, string classroomId);
     
-    Task<ClassroomResponseDTO?> RemoveStudent(ClassroomDTO classroomDto, string classroomId);
+    Task<ClassroomResponseDTO?> RemoveStudents(ClassroomDTO classroomDto, string classroomId);
     
     Task<ClassroomResponseDTO?> Delete(string classroomId);
     Task<ClassroomResponseDTO?> GetById(string classroomId);
