@@ -1,4 +1,5 @@
 using Management.Infrasctructure.Database.Entities;
+using Management.Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management.Infrasctructure.Database.Persistence;
