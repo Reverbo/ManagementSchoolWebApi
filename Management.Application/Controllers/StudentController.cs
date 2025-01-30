@@ -29,7 +29,7 @@ public class StudentController : ControllerBase
             var studentCreateDto = _mapper.Map<StudentDTO>(studentRequest) ;
             var student = await _studentCrudUseCase.Create(studentCreateDto);
             var response = _mapper.Map<StudentResource>(student);
-            return StatusCode(200, response);
+            return StatusCode(201, response);
         }
         catch (StudentException exception)
         {
@@ -60,9 +60,8 @@ public class StudentController : ControllerBase
     {
         try
         { 
-            var student = await _studentCrudUseCase.Delete(studentId);  
-            var response =_mapper.Map<StudentResource>(student);
-            return StatusCode(200, response);
+            await _studentCrudUseCase.Delete(studentId);  
+            return StatusCode(204);
         }
         catch (StudentException exception)
         {

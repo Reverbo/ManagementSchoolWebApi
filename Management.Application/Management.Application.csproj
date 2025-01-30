@@ -42,6 +42,7 @@
     <Compile Remove="Resource\Student\DirectorResouce.cs" />
     <Compile Remove="Resource\Student\ClassResouce.cs" />
     <Compile Remove="Resource\Student\TeacherResouce.cs" />
+    <Compile Remove="Resource\Student\StudentResponseResource.cs" />
   </ItemGroup>
 
 </Project>
