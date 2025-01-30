@@ -14,12 +14,12 @@ public class TeacherCrudService : ITeacherCrudUseCase
         _teacherRepositoryGateway = teacherRepositoryGateway;
     }
     
-    public async Task<TeacherDto> Create(TeacherDto teacher)
+    public async Task<TeacherDTO> Create(TeacherDTO teacher)
     {
         return await _teacherRepositoryGateway.Create(teacher);
     }
 
-    public async Task<TeacherDto> Update(TeacherDto teacher, string teacherId)
+    public async Task<TeacherDTO> Update(TeacherDTO teacher, string teacherId)
     {
         var updated = await _teacherRepositoryGateway.Update(teacher, teacherId);
         
@@ -31,7 +31,7 @@ public class TeacherCrudService : ITeacherCrudUseCase
         return updated;
     }
 
-    public async Task<TeacherDto> Delete(string teacherId)
+    public async Task<TeacherDTO> Delete(string teacherId)
     {
         var existingTeacher = await _teacherRepositoryGateway.Delete(teacherId);
 
@@ -43,12 +43,12 @@ public class TeacherCrudService : ITeacherCrudUseCase
         return existingTeacher;
     }
 
-    public async Task<ICollection<TeacherDto>> GetAll()
+    public async Task<ICollection<TeacherDTO>> GetAll()
     {
         return await _teacherRepositoryGateway.GetAll();
     }
 
-    public async Task<TeacherDto> GetById(string teacherId)
+    public async Task<TeacherDTO> GetById(string teacherId)
     {
         var existingTeacher = await _teacherRepositoryGateway.GetById(teacherId);
 

@@ -18,7 +18,7 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         return await _studentReposityGateway.Create(student);
     }
-
+    
     public async Task<StudentDTO> Update(StudentDTO student, string studentId)
     {
        await ValidateStudentExistence(studentId);

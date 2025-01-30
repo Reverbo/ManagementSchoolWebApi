@@ -6,9 +6,9 @@ using Management.Resource.Student;
 
 namespace Management.Mappings;
 
-public class ResourceToDtoProfileStudents: Profile
+public class ResourceToDtoProfileStudent: Profile
 {
-    public ResourceToDtoProfileStudents()
+    public ResourceToDtoProfileStudent()
     {
         CreateMap<StudentResource, StudentDTO>().ReverseMap();
         CreateMap<StudentDTO, StudentEntity>().ReverseMap(); 
