@@ -18,29 +18,19 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         return await _studentReposityGateway.Create(student);
     }
-
+    
     public async Task<StudentDTO> Update(StudentDTO student, string studentId)
     {
-       var updateStudent =  await _studentReposityGateway.Update(student, studentId);
-
-       if (updateStudent == null)
-       { 
-           throw new StudentException(404, $"Teacher with ID {studentId} not found.");
-       }
+       await ValidateStudentExistence(studentId);
        
-       return updateStudent;
+       return await _studentReposityGateway.Update(student, studentId);
     }
 
     public async Task<StudentDTO> Delete(string studentId)
     {
-        var existingStudent = await _studentReposityGateway.Delete(studentId);
-
-        if (existingStudent == null)
-        { 
-            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
-        }
+        await ValidateStudentExistence(studentId);
         
-        return existingStudent;
+        return await _studentReposityGateway.Delete(studentId);
     }
     
     public async Task<List<StudentDTO>> GetAll()
@@ -49,13 +39,18 @@ public class StudentCrudService : IStudentCrudUseCase
     }
     public async Task<StudentDTO> GetById(string studentId)
     {
-        var existingStudent=  await _studentReposityGateway.GetById(studentId);
-
-        if (existingStudent == null)
-        {
-            throw new StudentException(404, $"Teacher with ID {studentId} not found.");
-        }
+        await ValidateStudentExistence(studentId);
         
-        return existingStudent;
+        return await _studentReposityGateway.GetById(studentId);
     }
+    
+    private async Task ValidateStudentExistence(string studentId)
+    {
+        var existingStudentId = await _studentReposityGateway.GetById(studentId);
+        if (existingStudentId == null)
+        { 
+            throw new StudentException(404, $"Classroom with ID {studentId} not found.");
+        }
+}
+    
 }

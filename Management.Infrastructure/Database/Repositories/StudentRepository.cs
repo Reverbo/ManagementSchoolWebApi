@@ -2,6 +2,7 @@ using AutoMapper;
 using Management.Domain.Domains.DTO.Students;
 using Management.Domain.Gateway.Student;
 using Management.Infrasctructure.Database.Entities;
+using Management.Infrastructure.Database.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -35,9 +36,15 @@ public class StudentRepository : IStudentReposityGateway
         {
             return null;
         }
-
-        existingStudent.FirstName = student.FirstName;
+        
+        existingStudent.FullName = student.FullName;
+        existingStudent.SocialName = student.SocialName;
         existingStudent.Age = student.Age;
+        existingStudent.DocumentNumber = student.DocumentNumber;
+        existingStudent.DocumentType = student.DocumentType;
+        existingStudent.Email = student.Email;
+        existingStudent.FatherName = student.FatherName;
+        existingStudent.MotherName = student.MotherName;
         
         var result = await _students.ReplaceOneAsync(item => item.Id == studentObjectId, existingStudent);
         

@@ -1,16 +1,14 @@
-namespace Management.Domain.Domains.DTO.Students;
+namespace Management.Resource.Student;
 
-public class StudentDTO
+public class StudentResource
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
     
     public required string FullName { get; set; }
     
     public required string SocialName { get; set; }
     
     public required int Age { get; set; }
-    
-    public required string Classroom { get; set; }
     
     public required string DocumentNumber {get; set;}
     
@@ -21,5 +19,4 @@ public class StudentDTO
     public required string FatherName { get; set; }
     
     public required string MotherName { get; set; }
-    
 }

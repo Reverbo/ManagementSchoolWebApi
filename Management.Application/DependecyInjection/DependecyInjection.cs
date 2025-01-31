@@ -1,11 +1,12 @@
 using Management.Domain.Gateway.Average;
+using Management.Domain.Gateway.Classroom;
 using Management.Domain.Gateway.Student;
 using Management.Domain.Gateway.Teacher;
 using Management.Domain.Services;
 using Management.Domain.UseCases.Average;
+using Management.Domain.UseCases.Classroom;
 using Management.Domain.UseCases.Students;
 using Management.Domain.UseCases.Teachers;
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Repositories;
 using Management.Mappings;
 using MongoDB.Driver;
@@ -33,17 +34,21 @@ public static class DependecyInjection
         services.AddControllers();
 
         services.AddAutoMapper(
-            typeof(ResourceToDtoProfileStudents),
+            typeof(ResourceToDtoProfileStudent),
             typeof(ResourceToDtoProfileTeacher),
+            typeof(ResourceToDtoProfileClassroom),
             typeof(ResourceToDtoProfileAverage)
-            );
-        
+        );
+
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
         services.AddScoped<IStudentReposityGateway, StudentRepository>();
-        
+
+        services.AddScoped<IClassroomCrudUseCases, ClassroomCrudService>();
+        services.AddScoped<IClassroomRepositoryGateway, ClassroomRepository>();
+
         services.AddScoped<ITeacherCrudUseCase, TeacherCrudService>();
         services.AddScoped<ITeacherRepositoryGateway, TeacherRepository>();
-        
+
         services.AddScoped<IAverageCrudUseCase, AverageCrudService>();
         services.AddScoped<IAverageRepositoryGateway, AverageRepository>();
 

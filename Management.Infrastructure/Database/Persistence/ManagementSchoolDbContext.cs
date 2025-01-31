@@ -12,6 +12,7 @@ public class ManagementSchoolDbContext : DbContext
 
     public DbSet<StudentEntity> StudentEntities { get; set; }
     public DbSet<TeacherEntity> TeacherEntities { get; set; }
+    public DbSet<ClassroomEntity> ClassroomEntities { get; set; }
     public DbSet<AverageEntity> AverageEntities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
