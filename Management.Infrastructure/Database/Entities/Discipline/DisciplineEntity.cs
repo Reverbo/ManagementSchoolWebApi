@@ -18,7 +18,7 @@ public class DisciplineEntity
     public required string BimonthlyId { get; set; }
     
     [BsonRequired]
-    public ObjectId TeacherId {get; set;}
+    public required string TeacherId {get; set;}
 
     [BsonRequired] 
     public required List<string> AveragesId { get; set; } = [];

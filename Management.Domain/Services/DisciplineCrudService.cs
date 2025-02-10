@@ -38,6 +38,12 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
 
     public async Task<DisciplineResponseDTO> Update(DisciplineEditDTO discipline, string disciplineId)
     {
+        var existingTeacherId = await _teacherRepositoryGateway.GetById(discipline.TeacherId);
+        if (existingTeacherId == null)
+        {
+            throw new DisciplineException(404, $"Teacher with ID {discipline.TeacherId} not found.");
+        }
+
         var existingDiscipline = await _disciplineRepositoryGateway.Update(discipline, disciplineId);
 
         if (existingDiscipline == null)
@@ -48,7 +54,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         return existingDiscipline;
     }
 
-    public async Task<DisciplineResponseDTO?> AddAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO> AddAverages(DisciplineUpdateDTO discipline, string disciplineId)
     {
         var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
         if (existingDiscipline == null)
@@ -74,10 +80,11 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
             }
         }
 
-        return await _disciplineRepositoryGateway.AddAverages(discipline, disciplineId);
+        var newAverage = await _disciplineRepositoryGateway.AddAverages(discipline, disciplineId);
+        return newAverage!;
     }
 
-    public async Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO> RemoveAverages(DisciplineUpdateDTO discipline, string disciplineId)
     {
         var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
         if (existingDiscipline == null)
@@ -103,7 +110,8 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
             }
         }
 
-        return await _disciplineRepositoryGateway.RemoveAverages(discipline, disciplineId);
+        var removeAverage = await _disciplineRepositoryGateway.RemoveAverages(discipline, disciplineId);
+        return removeAverage!;
     }
 
     public async Task<DisciplineDTO> Delete(string disciplineId)

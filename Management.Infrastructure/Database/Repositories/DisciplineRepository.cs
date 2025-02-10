@@ -27,8 +27,6 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
     {
         var disciplineEntity = _mapper.Map<DisciplineEntity>(discipline);
         disciplineEntity.Id = ObjectId.GenerateNewId();
-        var teacherObjectId = new ObjectId(discipline.TeacherId);
-        disciplineEntity.TeacherId = teacherObjectId;
         await _disciplines.InsertOneAsync(disciplineEntity);
         return _mapper.Map<DisciplineResponseDTO>(disciplineEntity);
     }
@@ -43,10 +41,10 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
             return null;
         }
 
-        var teacherObjectId = new ObjectId(discipline.TeacherId);
 
         existingDiscipline.Name = discipline.Name;
-        existingDiscipline.TeacherId = teacherObjectId;
+        existingDiscipline.TeacherId = discipline.TeacherId;
+        existingDiscipline.BimonthlyId = discipline.BimonthlyId;
 
         var result = await _disciplines.ReplaceOneAsync(item => item.Id == disciplineObjectId, existingDiscipline);
 
