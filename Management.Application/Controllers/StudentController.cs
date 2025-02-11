@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Management.Controllers;
 
 [Route("api/student")]
+[ApiController]
 
 public class StudentController : ControllerBase
 {
