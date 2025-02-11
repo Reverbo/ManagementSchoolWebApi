@@ -36,7 +36,7 @@ public class ClassroomController : ControllerBase
         }
     }
 
-    [HttpPut("upateClass/{classroomId}")]
+    [HttpPut("updateClass/{classroomId}")]
     public async Task<IActionResult> Update(ClassroomUpdateResource classroomRequest, string classroomId)
     {
         try
