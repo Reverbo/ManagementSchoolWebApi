@@ -38,11 +38,11 @@ public class DisciplineController : ControllerBase
     }
 
     [HttpPut("updateDiscipline/{disciplineId}")]
-    public async Task<IActionResult> Update(DisciplineEditResource disciplineRequest, string disciplineId)
+    public async Task<IActionResult> Update(DisciplineUpdateResource disciplineRequest, string disciplineId)
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineEditDTO>(disciplineRequest);
+            var disciplineRequestDto = _mapper.Map<DisciplineUpdateDTO>(disciplineRequest);
             var discipline = await _disciplineCrudUseCase.Update(disciplineRequestDto, disciplineId);
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
@@ -54,11 +54,11 @@ public class DisciplineController : ControllerBase
     }
 
     [HttpPut("addAverages/{disciplineId}")]
-    public async Task<IActionResult> AddAverages(DisciplineUpdateResource disciplineRequest, string disciplineId)
+    public async Task<IActionResult> AddAverages(DisciplineUpdateAveragesResource disciplineRequest, string disciplineId)
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineUpdateDTO>(disciplineRequest);
+            var disciplineRequestDto = _mapper.Map<DisciplineUpdateAveragesDTO>(disciplineRequest);
             var discipline = await _disciplineCrudUseCase.AddAverages(disciplineRequestDto, disciplineId);
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
@@ -70,11 +70,11 @@ public class DisciplineController : ControllerBase
     }
 
     [HttpPut("removeAverages/{disciplineId}")]
-    public async Task<IActionResult> RemoveAverages(DisciplineUpdateResource disciplineRequest, string disciplineId)
+    public async Task<IActionResult> RemoveAverages(DisciplineUpdateAveragesResource disciplineRequest, string disciplineId)
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineUpdateDTO>(disciplineRequest);
+            var disciplineRequestDto = _mapper.Map<DisciplineUpdateAveragesDTO>(disciplineRequest);
             var discipline = await _disciplineCrudUseCase.RemoveAverages(disciplineRequestDto, disciplineId);
             var disciplineReponse = _mapper.Map<DisciplineResponseResource>(discipline);
             var response =

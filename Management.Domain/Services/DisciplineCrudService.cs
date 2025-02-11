@@ -36,7 +36,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         return await _disciplineRepositoryGateway.Create(discipline);
     }
 
-    public async Task<DisciplineResponseDTO> Update(DisciplineEditDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO> Update(DisciplineUpdateDTO discipline, string disciplineId)
     {
         var existingTeacherId = await _teacherRepositoryGateway.GetById(discipline.TeacherId);
         if (existingTeacherId == null)
@@ -54,9 +54,10 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         return existingDiscipline;
     }
 
-    public async Task<DisciplineResponseDTO> AddAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO> AddAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId)
     {
         var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
+        
         if (existingDiscipline == null)
         {
             throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
@@ -84,7 +85,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         return newAverage!;
     }
 
-    public async Task<DisciplineResponseDTO> RemoveAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO> RemoveAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId)
     {
         var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
         if (existingDiscipline == null)
@@ -102,7 +103,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
                     $"The following average IDs do not exist: {itemAverageId}");
             }
 
-            var getAveragesRemoveId = await GetAveragesRemoveId(disciplineId);
+            var getAveragesRemoveId = await GetAverageIds(disciplineId);
             if (!getAveragesRemoveId.Contains(itemAverageId))
             {
                 throw new DisciplineException(404,
@@ -143,12 +144,5 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         var itemDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
         var existingAverageIds = itemDiscipline?.AveragesId.Select(itemId => itemId.ToString()).ToList();
         return existingAverageIds ?? [];
-    }
-
-    private async Task<List<string>> GetAveragesRemoveId(string disciplineId)
-    {
-        var itemDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId);
-        var existingAveragesIds = itemDiscipline?.AveragesId.Select(itemId => itemId.ToString()).ToList();
-        return existingAveragesIds ?? [];
     }
 }

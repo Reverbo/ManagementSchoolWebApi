@@ -12,14 +12,12 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
 {
     private readonly IMongoCollection<DisciplineEntity> _disciplines;
     private readonly IMongoCollection<AverageEntity> _averages;
-    private readonly IMongoCollection<TeacherEntity> _teachers;
     private readonly IMapper _mapper;
 
     public DisciplineRepository(IMongoDatabase database, IMapper mapper)
     {
         _disciplines = database.GetCollection<DisciplineEntity>("disciplines");
         _averages = database.GetCollection<AverageEntity>("averages");
-        _teachers = database.GetCollection<TeacherEntity>("teachers");
         _mapper = mapper;
     }
 
@@ -31,7 +29,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         return _mapper.Map<DisciplineResponseDTO>(disciplineEntity);
     }
 
-    public async Task<DisciplineResponseDTO?> Update(DisciplineEditDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO?> Update(DisciplineUpdateDTO discipline, string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
         var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
@@ -57,7 +55,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         return _mapper.Map<DisciplineResponseDTO>(updateDiscipline);
     }
 
-    public async Task<DisciplineResponseDTO?> AddAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO?> AddAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
         var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
@@ -74,8 +72,8 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
 
         var averageEntitiesList = existingDiscipline.AveragesId.Select(itemId =>
         {
-            var avaregeObjectId = new ObjectId(itemId);
-            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == avaregeObjectId).FirstOrDefault();
+            var averageObjectId = new ObjectId(itemId);
+            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == averageObjectId).FirstOrDefault();
             return averageEntity;
         }).ToList();
 
@@ -92,7 +90,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         return _mapper.Map<DisciplineResponseDTO>(disciplineResponse);
     }
 
-    public async Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
         var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
@@ -109,8 +107,8 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
 
         var averageEntitiesList = existingDiscipline.AveragesId.Select(itemId =>
         {
-            var avaregeObjectId = new ObjectId(itemId);
-            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == avaregeObjectId).FirstOrDefault();
+            var averageObjectId = new ObjectId(itemId);
+            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == averageObjectId).FirstOrDefault();
             return averageEntity;
         }).ToList();
 

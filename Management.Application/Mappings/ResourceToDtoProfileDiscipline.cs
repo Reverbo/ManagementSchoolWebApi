@@ -17,12 +17,12 @@ public class ResourceToDtoProfileDiscipline : Profile
         CreateMap<DisciplineDTO, DisciplineResponseResource>().ReverseMap();
         CreateMap<DisciplineDTO, DisciplineEntity>().ReverseMap();
 
-        CreateMap<DisciplineEditResource, DisciplineEditDTO>().ReverseMap();
+        CreateMap<DisciplineUpdateResource, DisciplineUpdateDTO>().ReverseMap();
 
         CreateMap<DisciplineCreateDTO, DisciplineCreateResource>().ReverseMap();
         CreateMap<DisciplineCreateDTO, DisciplineEntity>().ReverseMap();
 
-        CreateMap<DisciplineUpdateResource, DisciplineUpdateDTO>().ReverseMap();
+        CreateMap<DisciplineUpdateAveragesResource, DisciplineUpdateAveragesDTO>().ReverseMap();
         CreateMap<DisciplineEntity, DisciplineResponseEntity>()
             .ForMember(dest => dest.Averages, opt => opt.Ignore());
     }
