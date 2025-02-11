@@ -1,6 +1,5 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Classroom;
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using Management.Resource.Classroom;
 
@@ -18,9 +17,12 @@ public class ResourceToDtoProfileClassroom : Profile
         
         CreateMap<ClassroomResponseResource, ClassroomResponseDTO>().ReverseMap();
         CreateMap<ClassroomResponseDTO, ClassroomResponseEntity>().ReverseMap();
+        
         CreateMap<ClassroomEntity, ClassroomResponseDTO>().ReverseMap();
-        CreateMap<ClassroomDTO, ClassroomResponseDTO>().ReverseMap();
-        CreateMap<ClassroomUpdateDTO, ClassroomDTO>().ReverseMap();
+        
         CreateMap<ClassroomUpdateDTO, ClassroomResponseResource>().ReverseMap();
+
+        CreateMap<ClassroomUpdateResource, ClassroomUpdateDTO>().ReverseMap();
+        CreateMap<ClassroomUpdateStudentsResource, ClassroomUpdateStudentsDTO>().ReverseMap();
     }
 }

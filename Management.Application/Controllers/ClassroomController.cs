@@ -21,11 +21,11 @@ public class ClassroomController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ClassroomDTO request)
+    public async Task<IActionResult> Create(ClassroomResource classroomRequest)
     {
         try
         {
-            var classroomCreateDto = _mapper.Map<ClassroomDTO>(request);
+            var classroomCreateDto = _mapper.Map<ClassroomDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.Create(classroomCreateDto);
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(201, response);
@@ -37,11 +37,11 @@ public class ClassroomController : ControllerBase
     }
 
     [HttpPut("upateClass/{classroomId}")]
-    public async Task<IActionResult> Update(ClassroomDTO request, string classroomId)
+    public async Task<IActionResult> Update(ClassroomUpdateResource classroomRequest, string classroomId)
     {
         try
         {
-            var classroomUpdateDto = _mapper.Map<ClassroomDTO>(request);
+            var classroomUpdateDto = _mapper.Map<ClassroomUpdateDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.Update(classroomUpdateDto, classroomId);
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(200, response);
@@ -54,11 +54,11 @@ public class ClassroomController : ControllerBase
 
 
     [HttpPut("addStudent/{classroomId}")]
-    public async Task<IActionResult> AddStudents(ClassroomUpdateDTO request, string classroomId)
+    public async Task<IActionResult> AddStudents(ClassroomUpdateStudentsResource classroomRequest, string classroomId)
     {
         try
         {
-            var classroomUpdateDto = _mapper.Map<ClassroomDTO>(request);
+            var classroomUpdateDto = _mapper.Map<ClassroomUpdateStudentsDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.AddStudents(classroomUpdateDto, classroomId);
             var classroomResponse = _mapper.Map<ClassroomResponseResource>(classroom);
             var response =
@@ -72,15 +72,15 @@ public class ClassroomController : ControllerBase
     }
 
     [HttpPut("removeStudent/{classroomId}")]
-    public async Task<IActionResult> RemoveStudents(ClassroomUpdateDTO request, string classroomId)
+    public async Task<IActionResult> RemoveStudents(ClassroomUpdateStudentsResource classroomRequest, string classroomId)
     {
         try
         {
-            var classroomUpdateDto = _mapper.Map<ClassroomDTO>(request);
+            var classroomUpdateDto = _mapper.Map<ClassroomUpdateStudentsDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.RemoveStudents(classroomUpdateDto, classroomId);
             var classroomResponse = _mapper.Map<ClassroomResponseResource>(classroom);
             var response =
-                $"Foram removidos da turma do ID: {classroomResponse.Id} os seguintes estudantes de ID: {string.Join(", ", classroomUpdateDto.StudentsId)}";
+                $"Foram removidos da turma do ID: {classroomId} os seguintes estudantes de ID: {string.Join(", ", classroomRequest.StudentsId)}";
             return StatusCode(200, response);
         }
         catch (ClassroomException exception)

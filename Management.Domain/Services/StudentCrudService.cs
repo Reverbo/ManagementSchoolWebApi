@@ -49,7 +49,7 @@ public class StudentCrudService : IStudentCrudUseCase
         var existingStudentId = await _studentReposityGateway.GetById(studentId);
         if (existingStudentId == null)
         { 
-            throw new StudentException(404, $"Classroom with ID {studentId} not found.");
+            throw new StudentException(404, $"Student with ID {studentId} not found.");
         }
 }
     

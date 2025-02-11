@@ -4,5 +4,9 @@ namespace Management.Domain.Domains.DTO.Classroom;
 
 public class ClassroomUpdateDTO
 {
-    public required List<string> StudentsId { get; set; }
+    public required string ClassName { get; set; }
+
+    public required string SchoolYear { get; set; }
+
+    public required string BimonthlyId { get; set; }
 }
