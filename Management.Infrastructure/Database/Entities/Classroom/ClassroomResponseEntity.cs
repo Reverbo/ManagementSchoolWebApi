@@ -17,9 +17,6 @@ public class ClassroomResponseEntity
     
     [BsonRequired]
     public required string SchoolYear { get; set; } 
-
-    [BsonRequired] 
-    public required string BimonthlyId { get; set; }
     
     [BsonRequired]
     public required List<StudentEntity> Students { get; set; }

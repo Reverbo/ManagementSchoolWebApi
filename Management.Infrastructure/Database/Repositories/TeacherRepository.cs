@@ -30,23 +30,23 @@ public class TeacherRepository : ITeacherRepositoryGateway
     {
         var teacherObjectIdId = new ObjectId(teacherId);
 
-        var existingEntity =
+        var teacherEntity =
             _teachers.FindAsync(item => item.Id == teacherObjectIdId)
                 .Result.FirstOrDefault();
 
-        if (existingEntity == null)
+        if (teacherEntity == null)
         {
             return null;
         }
 
-        existingEntity.Age = teacher.Age;
-        existingEntity.Contact = teacher.Contact;
-        existingEntity.ClassTeaching = teacher.ClassTeaching;
-        existingEntity.Salary = teacher.Salary;
-        existingEntity.ClassroomDiscipline = teacher.ClassroomDiscipline;
-        existingEntity.FullName = teacher.FullName;
+        teacherEntity.Age = teacher.Age;
+        teacherEntity.Contact = teacher.Contact;
+        teacherEntity.ClassTeaching = teacher.ClassTeaching;
+        teacherEntity.Salary = teacher.Salary;
+        teacherEntity.ClassroomDiscipline = teacher.ClassroomDiscipline;
+        teacherEntity.FullName = teacher.FullName;
 
-        var result = await _teachers.ReplaceOneAsync(item => item.Id == teacherObjectIdId, existingEntity);
+        var result = await _teachers.ReplaceOneAsync(item => item.Id == teacherObjectIdId, teacherEntity);
         
         if (!result.IsAcknowledged)
         {

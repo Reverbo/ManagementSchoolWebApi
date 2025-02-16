@@ -11,8 +11,6 @@ public class ClassroomResponseDTO
     
     public required string SchoolYear { get; set; }
     
-    public required string BimonthlyId { get; set; }
-   
     public required List<StudentDTO> Students { get; set; }
     
 }

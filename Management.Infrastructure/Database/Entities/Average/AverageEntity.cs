@@ -11,7 +11,7 @@ public class AverageEntity
     public ObjectId Id { get; set; }
     
     [BsonRequired] 
-    public required string SubjectId { get; set; }
+    public required string DisciplineId { get; set; }
     
     [BsonRequired] 
     public required string StudentId { get; set; }

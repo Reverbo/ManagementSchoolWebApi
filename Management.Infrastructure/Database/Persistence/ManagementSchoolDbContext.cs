@@ -1,5 +1,6 @@
 using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
+using Management.Infrastructure.Database.Entities.Bimonthly;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management.Infrasctructure.Database.Persistence;
@@ -15,6 +16,7 @@ public class ManagementSchoolDbContext : DbContext
     public DbSet<ClassroomEntity> ClassroomEntities { get; set; }
     public DbSet<AverageEntity> AverageEntities { get; set; }
     public DbSet<DisciplineEntity> DisciplineEntities { get; set; }
+    public DbSet<BimonthlyEntity> BimonthlyEntities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

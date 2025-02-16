@@ -30,15 +30,10 @@ public class ClassroomRepository : IClassroomRepositoryGateway
         classroomEntity.Id = ObjectId.GenerateNewId();
         await _classrooms.InsertOneAsync(classroomEntity);
 
-        var studentEntityList = classroom.StudentsId.Select(itemId =>
-        {
-            var studentObjectId = new ObjectId(itemId);
-            var studentEntity = _students.Find(itemStudent => itemStudent.Id == studentObjectId).FirstOrDefault();
-            return _mapper.Map<StudentEntity>(studentEntity);
-        }).ToList();
-
+        var studentList = await GetStudentList(classroom.StudentsId);
+        
         var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroomEntity);
-        classroomResponse.Students = studentEntityList;
+        classroomResponse.Students = studentList;
 
         return _mapper.Map<ClassroomResponseDTO>(classroomResponse);
     }
@@ -56,7 +51,6 @@ public class ClassroomRepository : IClassroomRepositoryGateway
 
         existingClassroom.ClassName = classroom.ClassName;
         existingClassroom.SchoolYear = classroom.SchoolYear;
-        existingClassroom.BimonthlyId = classroom.BimonthlyId;
 
         var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, existingClassroom);
 
@@ -67,15 +61,10 @@ public class ClassroomRepository : IClassroomRepositoryGateway
 
         var updatedClassroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        var studentEntityList = updatedClassroom.StudentsId.Select(itemId =>
-        {
-            var studentObjectId = new ObjectId(itemId);
-            var studentEntity = _students.Find(itemStudent => itemStudent.Id == studentObjectId).FirstOrDefault();
-            return studentEntity;
-        }).ToList();
+        var studentList = await GetStudentList(updatedClassroom.StudentsId);
 
         var classroomResponse = _mapper.Map<ClassroomResponseEntity>(existingClassroom);
-        classroomResponse.Students = studentEntityList;
+        classroomResponse.Students = studentList;
 
         return _mapper.Map<ClassroomResponseDTO>(classroomResponse);
     }
@@ -83,30 +72,24 @@ public class ClassroomRepository : IClassroomRepositoryGateway
     public async Task<ClassroomResponseDTO?> AddStudents(ClassroomUpdateStudentsDTO classroomDto, string classroomId)
     {
         var objectId = new ObjectId(classroomId);
-        var existingClassroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var classroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        if (existingClassroom == null)
+        if (classroom == null)
         {
             return null;
         }
-
-        var studentEntityList = existingClassroom.StudentsId.Select(itemId =>
-        {
-            var studentObjectId = new ObjectId(itemId);
-            var studentEntity = _students.Find(itemStudent => itemStudent.Id == studentObjectId).FirstOrDefault();
-            return studentEntity;
-        }).ToList();
-
-
+        
         foreach (var studentId in classroomDto.StudentsId)
         {
-            existingClassroom.StudentsId.Add(studentId);
+            classroom.StudentsId.Add(studentId);
         }
+        
+        var studentList = await GetStudentList(classroom.StudentsId);
 
-        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(existingClassroom);
-        classroomResponse.Students = studentEntityList;
+        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroom);
+        classroomResponse.Students = studentList;
 
-        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, existingClassroom);
+        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, classroom);
 
         if (!result.IsAcknowledged)
         {
@@ -119,29 +102,23 @@ public class ClassroomRepository : IClassroomRepositoryGateway
     public async Task<ClassroomResponseDTO?> RemoveStudents(ClassroomUpdateStudentsDTO classroomDto, string classroomId)
     {
         var objectId = new ObjectId(classroomId);
-        var existingClassroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var classroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        if (existingClassroom == null)
+        if (classroom == null)
         {
             return null;
         }
-
-        var studentEntityList = existingClassroom.StudentsId.Select(itemId =>
-        {
-            var studentObjectId = new ObjectId(itemId);
-            var studentEntity = _students.Find(itemStudent => itemStudent.Id == studentObjectId).FirstOrDefault();
-            return studentEntity;
-        }).ToList();
-
-
+        
         foreach (var studentId in classroomDto.StudentsId)
         {
-            existingClassroom.StudentsId.Remove(studentId);
+            classroom.StudentsId.Remove(studentId);
         }
 
-        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(existingClassroom);
-        classroomResponse.Students = studentEntityList;
-        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, existingClassroom);
+        var studentList = await GetStudentList(classroom.StudentsId);
+
+        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroom);
+        classroomResponse.Students = studentList;
+        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, classroom);
 
         if (!result.IsAcknowledged)
         {
@@ -177,11 +154,10 @@ public class ClassroomRepository : IClassroomRepositoryGateway
             return null;
         }
 
-        var studentIds = classroom.StudentsId.Select(itemId => new ObjectId(itemId)).ToList();
-        var students = await _students.Find(student => studentIds.Contains(student.Id)).ToListAsync();
+        var studentList = await GetStudentList(classroom.StudentsId);
 
         var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroom);
-        classroomResponse.Students = students;
+        classroomResponse.Students = studentList;
         return _mapper.Map<ClassroomResponseDTO>(classroomResponse);
     }
 
@@ -195,15 +171,17 @@ public class ClassroomRepository : IClassroomRepositoryGateway
             return null;
         }
 
-        var studentList = classroom.StudentsId.Select(itemId =>
-        {
-            var studentObjectId = new ObjectId(itemId);
-            var studentEntity = _students.Find(itemStudent => itemStudent.Id == studentObjectId).FirstOrDefault();
-            return studentEntity;
-        }).ToList();
+        var studentList = await GetStudentList(classroom.StudentsId);
 
         var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroom);
         classroomResponse.Students = studentList;
         return _mapper.Map<ClassroomResponseDTO>(classroomResponse);
+    }
+    
+    private async Task<List<StudentEntity>> GetStudentList(List<string> studentsIds)
+    {
+        var studentsId = studentsIds.Select(itemId => new ObjectId(itemId)).ToList();
+        var students = await _students.Find(student => studentsId.Contains(student.Id)).ToListAsync();
+        return students;
     }
 }

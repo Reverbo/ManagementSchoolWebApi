@@ -1,10 +1,12 @@
 using Management.Domain.Gateway;
 using Management.Domain.Gateway.Average;
+using Management.Domain.Gateway.Bimonthly;
 using Management.Domain.Gateway.Classroom;
 using Management.Domain.Gateway.Student;
 using Management.Domain.Gateway.Teacher;
 using Management.Domain.Services;
 using Management.Domain.UseCases.Average;
+using Management.Domain.UseCases.Bimonthly;
 using Management.Domain.UseCases.Classroom;
 using Management.Domain.UseCases.Discipline;
 using Management.Domain.UseCases.Students;
@@ -40,7 +42,8 @@ public static class DependecyInjection
             typeof(ResourceToDtoProfileTeacher),
             typeof(ResourceToDtoProfileClassroom),
             typeof(ResourceToDtoProfileAverage),
-            typeof(ResourceToDtoProfileDiscipline)
+            typeof(ResourceToDtoProfileDiscipline),
+            typeof(ResourceToDtoProfileBimonthly)
         );
 
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
@@ -57,6 +60,9 @@ public static class DependecyInjection
         
         services.AddScoped<IDisciplineCrudUseCase, DisciplineCrudService>();
         services.AddScoped<IDisciplineRepositoryGateway, DisciplineRepository>();
+
+        services.AddScoped<IBimonthlyCrudUseCase, BimonthlyCrudService>();
+        services.AddScoped<IBimonthlyRepositoryGateway, BimonthlyRepository>();
 
         return services;
     }

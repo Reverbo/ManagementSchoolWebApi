@@ -4,7 +4,7 @@ namespace Management.Domain.Domains.DTO.Discipline;
 
 public class DisciplineDTO
 {
-    public string? Id { get; set; }
+    public string Id { get; set; }
     
     public required string Name { get; set; }
 

@@ -11,7 +11,5 @@ public class ClassroomResponseResource
 
     public required string SchoolYear { get; set; }
 
-    public required string BimonthlyId { get; set; }
-
     public required List<StudentResource> Students { get; set; }
 }

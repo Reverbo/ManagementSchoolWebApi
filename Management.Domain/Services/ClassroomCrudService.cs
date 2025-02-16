@@ -1,7 +1,5 @@
 using Management.Domain.Domains.DTO.Classroom;
-using Management.Domain.Domains.DTO.Students;
 using Management.Domain.Domains.Exceptions;
-using Management.Domain.Gateway;
 using Management.Domain.Gateway.Classroom;
 using Management.Domain.Gateway.Student;
 using Management.Domain.UseCases.Classroom;
@@ -20,42 +18,27 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         _studentReposityGateway = studentReposityGateway;
     }
 
-    public async Task<ClassroomResponseDTO> Create(ClassroomDTO classroom)
+    public async Task<ClassroomResponseDTO> Create(ClassroomDTO classroomDto)
     {
-        foreach (var itemClassroom in classroom.StudentsId)
+        foreach (var itemClassroom in classroomDto.StudentsId)
         {
-            var existingStudent = await _studentReposityGateway.GetById(itemClassroom);
+            var existingStudent = await _studentReposityGateway.GetById(itemClassroom) != null;
 
-            if (existingStudent == null)
+            if (!existingStudent)
             {
                 throw new ClassroomException(404, "It is necessary that all students exist.");
             }
         }
 
-        var existingClassroomWithThisName = await _classroomRepositoryGateway.GetByName(classroom.ClassName);
-
-        if (existingClassroomWithThisName != null)
-        {
-            throw new ClassroomException(400, "It was not possible to create a new classroom because a classroom with this name already exists.");
-        }
-
-        var currentDate = DateTime.Now;
-
-        var dateIsInvalid = !DateTime.TryParse(classroom.SchoolYear, out DateTime dateClassroom) || 
-            dateClassroom.Year > (currentDate.Year + 1) || 
-            dateClassroom.Year < currentDate.Year;
+        await ValidateNameAndDate(classroomDto.SchoolYear, classroomDto.ClassName);
         
-        if (dateIsInvalid)
-        {
-            throw new ClassroomException(400, "Invalid date. Please provide a valid date within the current or next year.");
-        }
-        
-        return await _classroomRepositoryGateway.Create(classroom);
+        return await _classroomRepositoryGateway.Create(classroomDto);
     }
 
     public async Task<ClassroomResponseDTO> Update(ClassroomUpdateDTO classroom, string classroomId)
     {
-        // fazer regras de negocios como no de create
+        await ValidateNameAndDate(classroom.SchoolYear, classroom.ClassName);
+        
         var existingClassroom = await _classroomRepositoryGateway.Update(classroom, classroomId);
 
         if (existingClassroom == null)
@@ -66,13 +49,13 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         return existingClassroom;
     }
 
-    public async Task<ClassroomResponseDTO?> AddStudents(ClassroomUpdateStudentsDTO classroom, string classroomId)
+    public async Task<ClassroomResponseDTO?> AddStudents(ClassroomUpdateStudentsDTO classroomDto, string classroomId)
     {
-        await ValidateStudentsExistence(classroom.StudentsId);
+        await ValidateStudentsExistence(classroomDto.StudentsId);
 
         var classroomGetIds = await GetClassroomStudentIds(classroomId);
 
-        foreach (var studentId in classroom.StudentsId)
+        foreach (var studentId in classroomDto.StudentsId)
         {
             if (classroomGetIds.Contains(studentId))
             {
@@ -80,14 +63,14 @@ public class ClassroomCrudService : IClassroomCrudUseCases
             }
         }
         
-        var existingClassroom = await _classroomRepositoryGateway.AddStudents(classroom, classroomId);
+        var classroom = await _classroomRepositoryGateway.AddStudents(classroomDto, classroomId);
 
-        return existingClassroom;
+        return classroom;
     }
 
-    public async Task<ClassroomResponseDTO?> RemoveStudents(ClassroomUpdateStudentsDTO classroom, string classroomId)
+    public async Task<ClassroomResponseDTO?> RemoveStudents(ClassroomUpdateStudentsDTO classroomDto, string classroomId)
     {
-        await ValidateStudentsExistence(classroom.StudentsId);
+        await ValidateStudentsExistence(classroomDto.StudentsId);
         
         var classroomGetIds = await GetClassroomStudentIds(classroomId);
         
@@ -96,7 +79,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
             throw new ClassroomException(404, $"Classroom with ID {classroomId} has not students.");
         }
         
-        foreach (var studentId in classroom.StudentsId)
+        foreach (var studentId in classroomDto.StudentsId)
         {
             if (!classroomGetIds.Contains(studentId))
             {
@@ -104,16 +87,16 @@ public class ClassroomCrudService : IClassroomCrudUseCases
             }
         }
         
-        var existingClassroom = await _classroomRepositoryGateway.RemoveStudents(classroom, classroomId);
+        var classroom = await _classroomRepositoryGateway.RemoveStudents(classroomDto, classroomId);
         
-        return existingClassroom;
+        return classroom;
     }
 
     public async Task Delete(string classroomId)
     {
-        var existingClassroom = await _classroomRepositoryGateway.Delete(classroomId);
+        var existingClassroom = await _classroomRepositoryGateway.Delete(classroomId) != null;
 
-        if (existingClassroom == null)
+        if (!existingClassroom)
         {
             throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
         }
@@ -121,26 +104,26 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
     public async Task<ClassroomResponseDTO> GetById(string classroomId)
     {
-        var existingClassroom = await _classroomRepositoryGateway.GetById(classroomId);
+        var classroom = await _classroomRepositoryGateway.GetById(classroomId);
 
-        if (existingClassroom == null)
+        if (classroom == null)
         {
             throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
         }
 
-        return existingClassroom;
+        return classroom;
     }
 
     public async Task<ClassroomResponseDTO> GetByName(string classroomName)
     {
-        var existingClassroomName = await _classroomRepositoryGateway.GetByName(classroomName);
+        var classroomWithName = await _classroomRepositoryGateway.GetByName(classroomName);
 
-        if (existingClassroomName == null)
+        if (classroomWithName == null)
         {
             throw new ClassroomException(404, $"{classroomName} Classroom does not exist");
         }
 
-        return existingClassroomName;
+        return classroomWithName;
     }
 
     private async Task ValidateStudentsExistence(List<string> studentIdList)
@@ -152,7 +135,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
             if (existingStudent == null)
             {
                 throw new ClassroomException(404,
-                    $"The following student IDs do not exist: {string.Join(", ", itemStudentId)}");
+                    $"The following student ID do not exist: {itemStudentId}");
             }
         }
     }
@@ -170,5 +153,25 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         return classroomGetIds;
     }
-    
+
+    private async Task ValidateNameAndDate(string schoolYear, string className)
+    {
+        var existingClassroomWithThisName = await _classroomRepositoryGateway.GetByName(className) != null;
+
+        if (!existingClassroomWithThisName)
+        {
+            throw new ClassroomException(400, "It was not possible to create a new classroom because a classroom with this name already exists.");
+        }
+
+        var currentDate = DateTime.Now;
+
+        var dateIsInvalid = !DateTime.TryParse(schoolYear, out DateTime dateClassroom) || 
+                            dateClassroom.Year > (currentDate.Year + 1) || 
+                            dateClassroom.Year < currentDate.Year;
+        
+        if (dateIsInvalid)
+        {
+            throw new ClassroomException(400, "Invalid date. Please provide a valid date within the current or next year.");
+        }
+    }
 }

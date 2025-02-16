@@ -30,18 +30,18 @@ public class AverageRepository : IAverageRepositoryGateway
     public async Task<AverageDTO?> Update(ScoresDTO score, string averageId)
     {
         var averageObjectId = new ObjectId(averageId);
-        var existingAverage = await _averages.Find(item => item.Id == averageObjectId).FirstOrDefaultAsync();
+        var averageEntity = await _averages.Find(item => item.Id == averageObjectId).FirstOrDefaultAsync();
 
-        if (existingAverage == null )
+        if (averageEntity == null )
         {
             return null;
         }
 
-        existingAverage.Scores.FirstScore = score.FirstScore;
-        existingAverage.Scores.SecondScore = score.SecondScore;
-        existingAverage.Total = ((existingAverage.Scores.FirstScore + existingAverage.Scores.SecondScore) / 2.0).ToString(CultureInfo.InvariantCulture);
+        averageEntity.Scores.FirstScore = score.FirstScore;
+        averageEntity.Scores.SecondScore = score.SecondScore;
+        averageEntity.Total = ((averageEntity.Scores.FirstScore + averageEntity.Scores.SecondScore) / 2.0).ToString(CultureInfo.InvariantCulture);
         
-        var result = await _averages.ReplaceOneAsync(item => item.Id == averageObjectId, existingAverage);
+        var result = await _averages.ReplaceOneAsync(item => item.Id == averageObjectId, averageEntity);
         
         if (!result.IsAcknowledged)
         {
@@ -54,16 +54,16 @@ public class AverageRepository : IAverageRepositoryGateway
     public async Task<AverageDTO?> Delete(string averageId)
     {
         var averageObjectId = new ObjectId(averageId);
-        var existingAverage = await _averages.Find(average => average.Id == averageObjectId).FirstOrDefaultAsync();
+        var averageEntity = await _averages.Find(average => average.Id == averageObjectId).FirstOrDefaultAsync();
 
-        if (existingAverage == null)
+        if (averageEntity == null)
         {
             return null;
         }
         
         await _averages.DeleteOneAsync(item => item.Id == averageObjectId);
         
-        return _mapper.Map<AverageDTO>(existingAverage);
+        return _mapper.Map<AverageDTO>(averageEntity);
     }
 
     public async Task<List<AverageDTO>> GetAll()
@@ -76,13 +76,13 @@ public class AverageRepository : IAverageRepositoryGateway
     public async Task<AverageDTO?> GetById(string averageId)
     {
         var averageObjectId = new ObjectId(averageId);
-        var existingAverage = await _averages.Find(item => item.Id == averageObjectId).FirstOrDefaultAsync();
+        var averageEntity = await _averages.Find(item => item.Id == averageObjectId).FirstOrDefaultAsync();
 
-        if (existingAverage == null)
+        if (averageEntity == null)
         {
             return null;
         }
 
-        return _mapper.Map<AverageDTO>(existingAverage);
+        return _mapper.Map<AverageDTO>(averageEntity);
     }
 }

@@ -1,5 +1,6 @@
 using Management.Domain.Domains.DTO.Average;
 using Management.Domain.Domains.Exceptions;
+using Management.Domain.Gateway;
 using Management.Domain.Gateway.Average;
 using Management.Domain.Gateway.Student;
 using Management.Domain.UseCases.Average;
@@ -10,47 +11,67 @@ public class AverageCrudService : IAverageCrudUseCase
 {
     private readonly IAverageRepositoryGateway _averageRepositoryGateway;
     private readonly IStudentReposityGateway _studentReposityGateway;
+    private readonly IDisciplineRepositoryGateway _disciplineRepositoryGateway;
 
-    public AverageCrudService(IAverageRepositoryGateway averageRepositoryGateway, IStudentReposityGateway studentReposityGateway)
+    public AverageCrudService(IAverageRepositoryGateway averageRepositoryGateway,
+        IStudentReposityGateway studentReposityGateway, IDisciplineRepositoryGateway disciplineRepositoryGateway)
     {
         _averageRepositoryGateway = averageRepositoryGateway;
         _studentReposityGateway = studentReposityGateway;
+        _disciplineRepositoryGateway = disciplineRepositoryGateway;
     }
 
     public async Task<AverageDTO> Create(AverageDTO average)
     {
-        var existingStudent = await _studentReposityGateway.GetById(average.StudentId);
+        var existingStudent = await _studentReposityGateway.GetById(average.StudentId) != null;
 
-        if (existingStudent == null)
+        if (!existingStudent)
         {
-            throw new AverageException(404, $"It is necessary for the student to exist in order to register a average.");
+            throw new AverageException(404,
+                $"It is necessary for the student to exist in order to register a average.");
         }
-        
+
+        var existingDiscipline = await _disciplineRepositoryGateway.GetById(average.DisciplineId) != null;
+
+        if (!existingDiscipline)
+        {
+            throw new AverageException(404,
+                $"It is necessary for the discipline to exist in order to register a average.");
+        }
+
         return await _averageRepositoryGateway.Create(average);
     }
 
     public async Task<AverageDTO> Update(ScoresDTO score, string averageId)
     {
-        var updateAverage = await _averageRepositoryGateway.Update(score, averageId);
+        var average = await _averageRepositoryGateway.Update(score, averageId);
 
-        if (updateAverage == null)
+        if (average == null)
         {
             throw new AverageException(404, $"Average with ID {averageId} not found.");
         }
 
-        return updateAverage;
+        var scoresIsValid = score.FirstScore is >= 0 and <= 10 &&
+                            score.SecondScore is >= 0 and <= 10;
+        
+        if (!scoresIsValid)
+        {
+            throw new AverageException(404, $"Scores must be between 0 and 10.");
+        }
+
+        return average;
     }
 
     public async Task<AverageDTO> Delete(string averageId)
     {
-        var existingAverage = await _averageRepositoryGateway.Delete(averageId);
+        var average = await _averageRepositoryGateway.Delete(averageId);
 
-        if (existingAverage == null)
+        if (average == null)
         {
             throw new AverageException(404, $"Average with ID {averageId} not found.");
         }
 
-        return existingAverage;
+        return average;
     }
 
     public async Task<List<AverageDTO>> GetAll()
@@ -60,13 +81,13 @@ public class AverageCrudService : IAverageCrudUseCase
 
     public async Task<AverageDTO> GetById(string averageId)
     {
-        var existingAverage = await _averageRepositoryGateway.GetById(averageId);
+        var average = await _averageRepositoryGateway.GetById(averageId);
 
-        if (existingAverage == null)
+        if (average == null)
         {
             throw new AverageException(404, $"Average with ID {averageId} not found.");
         }
 
-        return existingAverage;
+        return average;
     }
 }

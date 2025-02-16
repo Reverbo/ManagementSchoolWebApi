@@ -25,8 +25,8 @@ public class AverageController : ControllerBase
     {
         try
         {
-            var averageResquestDto = _mapper.Map<AverageDTO>(averageRequest);
-            var average = await _averageCrudUseCase.Create(averageResquestDto);
+            var averageDto = _mapper.Map<AverageDTO>(averageRequest);
+            var average = await _averageCrudUseCase.Create(averageDto);
             var response = _mapper.Map<AverageResource>(average);
             return StatusCode(201, response);
         }
