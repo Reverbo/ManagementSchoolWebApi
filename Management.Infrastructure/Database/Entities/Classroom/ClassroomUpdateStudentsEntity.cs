@@ -1,6 +1,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Management.Infrastructure.Database.Entities;
+namespace Management.Infrastructure.Database.Entities.Classroom;
 
 public class ClassroomUpdateStudentsEntity
 {

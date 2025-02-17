@@ -22,7 +22,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
         _disciplineRepositoryGateway = disciplineRepositoryGateway;
     }
 
-    public async Task<BimonthlyResponseDTO> Create(BimonthlyDTO bimonthlyDto)
+    public async Task<BimonthlyResponseDTO> Create(BimonthlyCreateDTO bimonthlyDto)
     {
         await ValidateBimonthly(bimonthlyDto);
         return await _bimonthlyRepositoryGateway.Create(bimonthlyDto);
@@ -147,24 +147,13 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
         }
     }
 
-    private async Task ValidateBimonthly(BimonthlyDTO bimonthlyDto)
+    private async Task ValidateBimonthly(BimonthlyCreateDTO bimonthlyDto)
     {
         var existingClassroom = await _classroomRepositoryGateway.GetById(bimonthlyDto.ClassroomId) != null;
 
-        if (existingClassroom)
+        if (!existingClassroom)
         {
             throw new BimonthlyException(404, $"Teacher with ID  {bimonthlyDto.ClassroomId} not found.");
-        }
-
-        foreach (var disciplineId in bimonthlyDto.DisciplinesId)
-        {
-            var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId) != null;
-
-            if (!existingDiscipline)
-            {
-                throw new BimonthlyException(404,
-                    $"Unable create Bimonthly. Discipline with ID {disciplineId} not  found.");
-            }
         }
 
         ValidatePeriod(bimonthlyDto.StartDate, bimonthlyDto.EndDate);

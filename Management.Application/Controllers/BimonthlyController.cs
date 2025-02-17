@@ -21,11 +21,11 @@ public class BimonthlyController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(BimontlhyResource bimonthlyRequest)
+    public async Task<IActionResult> Create(BimonthlyCreateResource bimonthlyRequest)
     {
         try
         {
-            var bimonthlyDto = _mapper.Map<BimonthlyDTO>(bimonthlyRequest);
+            var bimonthlyDto = _mapper.Map<BimonthlyCreateDTO>(bimonthlyRequest);
             var bimonthly = await _bimonthlyCrudUseCase.Create(bimonthlyDto);
             var response = _mapper.Map<BimonthlyResponseResource>(bimonthly);
             return StatusCode(201, response);

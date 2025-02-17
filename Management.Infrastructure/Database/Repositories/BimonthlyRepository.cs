@@ -1,5 +1,7 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Bimonthly;
+using Management.Domain.Domains.DTO.Discipline;
+using Management.Domain.Gateway;
 using Management.Domain.Gateway.Bimonthly;
 using Management.Infrastructure.Database.Entities;
 using Management.Infrastructure.Database.Entities.Bimonthly;
@@ -11,26 +13,23 @@ namespace Management.Infrastructure.Database.Repositories;
 public class BimonthlyRepository : IBimonthlyRepositoryGateway
 {
     private readonly IMongoCollection<BimonthlyEntity> _bimonthly;
-    private readonly IMongoCollection<DisciplineEntity> _discipline;
+    private readonly IDisciplineRepositoryGateway _discipline;
     private readonly IMapper _mapper;
 
-    public BimonthlyRepository(IMongoDatabase database, IMapper mapper)
+    public BimonthlyRepository(IMongoDatabase database, IMapper mapper, IDisciplineRepositoryGateway discipline)
     {
         _bimonthly = database.GetCollection<BimonthlyEntity>("bimonthlys");
-        _discipline = database.GetCollection<DisciplineEntity>("disciplines");
+        _discipline = discipline;
         _mapper = mapper;
     }
 
-    public async Task<BimonthlyResponseDTO> Create(BimonthlyDTO bimonthly)
+    public async Task<BimonthlyResponseDTO> Create(BimonthlyCreateDTO bimonthly)
     {
         var bimonthlyEntity = _mapper.Map<BimonthlyEntity>(bimonthly);
         bimonthlyEntity.Id = ObjectId.GenerateNewId();
+        bimonthlyEntity.DisciplinesId = [];
         await _bimonthly.InsertOneAsync(bimonthlyEntity);
-
-        var disciplineList = await GetDisciplineList(bimonthly.DisciplinesId);
-
         var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(bimonthlyEntity);
-        bimonthlyResponse.Disciplines = disciplineList;
 
         return _mapper.Map<BimonthlyResponseDTO>(bimonthlyResponse);
     }
@@ -188,11 +187,18 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<List<BimonthlyResponseDTO>>(bimonthlyResponseDtoList).ToList();
     }
 
-    private async Task<List<DisciplineEntity>> GetDisciplineList(List<string> disciplineIds)
+    private async Task<List<DisciplineResponseEntity>> GetDisciplineList(List<string> disciplineIds)
     {
-        var disciplinesId = disciplineIds.Select(itemId => new ObjectId(itemId)).ToList();
-        var disciplines = await _discipline.Find(student => disciplinesId.Contains(student.Id)).ToListAsync();
-        
-        return disciplines;
+        var disciplines = new List<DisciplineResponseDTO>();
+        foreach (var disciplineId in disciplineIds)
+        {
+            var disciplineGetById = await _discipline.GetById(disciplineId);
+            if (disciplineGetById != null)
+            {
+                disciplines.Add(disciplineGetById);
+            }
+        }
+
+        return _mapper.Map<List<DisciplineResponseEntity>>(disciplines);
     }
 }

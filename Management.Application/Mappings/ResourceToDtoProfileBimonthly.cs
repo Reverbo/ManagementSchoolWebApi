@@ -23,5 +23,9 @@ public class ResourceToDtoProfileBimonthly : Profile
         CreateMap<BimonthlyDatesResource, BimonthlyDatesDTO>().ReverseMap();
         
         CreateMap<BimonthlyUpdateDisciplinesResource, BimonthlyUpdateDisciplinesDTO>().ReverseMap();
+
+        CreateMap<BimonthlyCreateDTO, BimonthlyCreateResource>().ReverseMap();
+        CreateMap<BimonthlyCreateDTO, BimonthlyEntity>()
+            .ForMember(dest => dest.DisciplinesId, opt => opt.Ignore());
     }
 }

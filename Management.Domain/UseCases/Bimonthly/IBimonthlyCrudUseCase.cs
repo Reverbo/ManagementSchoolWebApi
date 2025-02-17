@@ -4,7 +4,7 @@ namespace Management.Domain.UseCases.Bimonthly;
 
 public interface IBimonthlyCrudUseCase
 {
-    Task<BimonthlyResponseDTO> Create(BimonthlyDTO bimonthlyDto);
+    Task<BimonthlyResponseDTO> Create(BimonthlyCreateDTO bimonthlyDto);
     Task<BimonthlyResponseDTO> Update(BimonthlyDatesDTO bimonthly, string bimonthlyId);
     Task<BimonthlyResponseDTO?> AddDisciplines(BimonthlyUpdateDisciplinesDTO bimonthly, string bimonthlyId);
     Task<BimonthlyResponseDTO?> RemoveDisciplines(BimonthlyUpdateDisciplinesDTO bimonthly, string bimonthlyId);
