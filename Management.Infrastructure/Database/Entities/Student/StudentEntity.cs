@@ -17,16 +17,16 @@ public class StudentEntity
     public required string SocialName { get; set; }
     
     [BsonRequired]
-    public required int Age { get; set; }
+    public required DateOnly DateBirth { get; set; }
     
     [BsonRequired]
-    public required string Classroom { get; set; }
+    public required string ClassroomId { get; set; }
     
     [BsonRequired]
-    public required string DocumentNumber {get; set;}
+    public required string Cpf {get; set;}
     
     [BsonRequired]
-    public required string DocumentType { get; set; }
+    public required string Rg { get; set; }
     
     [BsonRequired]
     public required string Email { get; set; } 

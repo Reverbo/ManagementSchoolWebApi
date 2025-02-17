@@ -35,11 +35,11 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         return await _classroomRepositoryGateway.Create(classroomDto);
     }
 
-    public async Task<ClassroomResponseDTO> Update(ClassroomUpdateDTO classroom, string classroomId)
+    public async Task<ClassroomResponseDTO> Update(ClassroomUpdateDTO classroomDto, string classroomId)
     {
-        await ValidateNameAndDate(classroom.SchoolYear, classroom.ClassName);
+        await ValidateNameAndDate(classroomDto.SchoolYear, classroomDto.ClassName);
         
-        var existingClassroom = await _classroomRepositoryGateway.Update(classroom, classroomId);
+        var existingClassroom = await _classroomRepositoryGateway.Update(classroomDto, classroomId);
 
         if (existingClassroom == null)
         {

@@ -147,19 +147,6 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
 
         return _mapper.Map<DisciplineResponseDTO>(disciplineResponse);
     }
-
-    public async Task<DisciplineDTO?> GetByAverage(string disciplineId)
-    {
-        var disciplineObjectId = new ObjectId(disciplineId);
-        var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
-
-        if (existingDiscipline == null)
-        {
-            return null;
-        }
-        
-        return _mapper.Map<DisciplineDTO>(existingDiscipline);
-    }
     
     private async Task<List<AverageEntity>> GetAverageList(List<string> averageIds)
     {

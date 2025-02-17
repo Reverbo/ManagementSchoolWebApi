@@ -27,8 +27,8 @@ public class StudentController : ControllerBase
     {
         try
         {
-            var studentCreateDto = _mapper.Map<StudentDTO>(studentRequest) ;
-            var student = await _studentCrudUseCase.Create(studentCreateDto);
+            var studentDto = _mapper.Map<StudentDTO>(studentRequest) ;
+            var student = await _studentCrudUseCase.Create(studentDto);
             var response = _mapper.Map<StudentResource>(student);
             return StatusCode(201, response);
         }
@@ -40,12 +40,12 @@ public class StudentController : ControllerBase
     }
 
     [HttpPut("{studentId}")]
-    public async Task<IActionResult> Update(StudentResource studentRequest, string studentId)
+    public async Task<IActionResult> Update(StudentUpdateResource studentRequest, string studentId)
     { 
         try
         {
-           var studentCreateDto = _mapper.Map<StudentDTO>(studentRequest);
-           var student = await _studentCrudUseCase.Update(studentCreateDto, studentId);
+           var studentUpdateDto = _mapper.Map<StudentUpdateDTO>(studentRequest);
+           var student = await _studentCrudUseCase.Update(studentUpdateDto, studentId);
            var response =_mapper.Map<StudentResource>(student);
            return StatusCode(200, response);
         }

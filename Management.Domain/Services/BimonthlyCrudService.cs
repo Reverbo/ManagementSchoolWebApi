@@ -153,7 +153,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (!existingClassroom)
         {
-            throw new BimonthlyException(404, $"Teacher with ID  {bimonthlyDto.ClassroomId} not found.");
+            throw new BimonthlyException(404, $"Classroom with ID  {bimonthlyDto.ClassroomId} not found.");
         }
 
         ValidatePeriod(bimonthlyDto.StartDate, bimonthlyDto.EndDate);

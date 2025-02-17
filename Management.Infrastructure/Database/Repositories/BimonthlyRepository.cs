@@ -64,7 +64,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<BimonthlyResponseDTO>(classroomResponse);
     }
 
-    public async Task<BimonthlyResponseDTO?> AddDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto,
+    public async Task<BimonthlyResponseDTO?> AddDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto, 
         string bimonthlyId)
     {
         var objectId = new ObjectId(bimonthlyId);
@@ -79,7 +79,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         {
             existingBimonthly.DisciplinesId.Add(disciplineId);
         }
-        
+
         var disciplineList = await GetDisciplineList(existingBimonthly.DisciplinesId);
 
         var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(existingBimonthly);
@@ -95,7 +95,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<BimonthlyResponseDTO>(bimonthlyResponse);
     }
 
-    public async Task<BimonthlyResponseDTO?> RemoveDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto,
+    public async Task<BimonthlyResponseDTO?> RemoveDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto, 
         string bimonthlyId)
     {
         var objectId = new ObjectId(bimonthlyId);
@@ -105,7 +105,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         {
             return null;
         }
-                
+
         foreach (var disciplineId in bimonthlyDto.DisciplinesId)
         {
             bimonthlyEntity.DisciplinesId.Remove(disciplineId);
@@ -176,7 +176,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         ).ToList();
 
         var bimonthlyResponseDtoList = new List<BimonthlyResponseEntity>();
-        
+
         foreach (var bimonthlyItem in bimonthlyDateFilter)
         {
             var disciplineList = await GetDisciplineList(bimonthlyItem.DisciplinesId);
@@ -184,6 +184,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
             bimonthlyMap.Disciplines = disciplineList;
             bimonthlyResponseDtoList.Add(bimonthlyMap);
         }
+
         return _mapper.Map<List<BimonthlyResponseDTO>>(bimonthlyResponseDtoList).ToList();
     }
 

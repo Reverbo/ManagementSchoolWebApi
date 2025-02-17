@@ -26,8 +26,8 @@ public class DisciplineController : ControllerBase
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineCreateDTO>(disciplineRequest);
-            var discipline = await _disciplineCrudUseCase.Create(disciplineRequestDto);
+            var disciplineDto = _mapper.Map<DisciplineCreateDTO>(disciplineRequest);
+            var discipline = await _disciplineCrudUseCase.Create(disciplineDto);
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(201, response);
         }
@@ -42,8 +42,8 @@ public class DisciplineController : ControllerBase
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineUpdateDTO>(disciplineRequest);
-            var discipline = await _disciplineCrudUseCase.Update(disciplineRequestDto, disciplineId);
+            var disciplineUpdateDto = _mapper.Map<DisciplineUpdateDTO>(disciplineRequest);
+            var discipline = await _disciplineCrudUseCase.Update(disciplineUpdateDto, disciplineId);
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
         }
@@ -58,8 +58,8 @@ public class DisciplineController : ControllerBase
     {
         try
         {
-            var disciplineRequestDto = _mapper.Map<DisciplineUpdateAveragesDTO>(disciplineRequest);
-            var discipline = await _disciplineCrudUseCase.AddAverages(disciplineRequestDto, disciplineId);
+            var disciplineUpdateDto = _mapper.Map<DisciplineUpdateAveragesDTO>(disciplineRequest);
+            var discipline = await _disciplineCrudUseCase.AddAverages(disciplineUpdateDto, disciplineId);
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
         }
@@ -77,9 +77,9 @@ public class DisciplineController : ControllerBase
             var disciplineRequestDto = _mapper.Map<DisciplineUpdateAveragesDTO>(disciplineRequest);
             var discipline = await _disciplineCrudUseCase.RemoveAverages(disciplineRequestDto, disciplineId);
             var disciplineReponse = _mapper.Map<DisciplineResponseResource>(discipline);
-            var response =
+            var messageResponse =
                 $"Foram removidos da discipline do ID: {disciplineReponse.Id} as seguintes médias de ID: {string.Join(", ", disciplineRequestDto.AveragesId)}";
-            return StatusCode(200, response);
+            return StatusCode(200, messageResponse);
         }
         catch (DisciplineException exception)
         {
