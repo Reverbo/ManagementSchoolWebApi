@@ -1,9 +1,7 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class AverageException : Exception
+public class AverageException : BaseManagementSchoolException
 {
-    public int StatusCode { get; set; }
-
     public AverageException() : base("Average exception error.")
     {
     }
@@ -16,4 +14,5 @@ public class AverageException : Exception
     {
         StatusCode = statusCode;
     }
+    
 }

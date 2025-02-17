@@ -151,9 +151,9 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
     {
         var existingClassroom = await _classroomRepositoryGateway.GetById(bimonthlyDto.ClassroomId) != null;
 
-        if (existingClassroom)
+        if (!existingClassroom)
         {
-            throw new BimonthlyException(404, $"Teacher with ID  {bimonthlyDto.ClassroomId} not found.");
+            throw new BimonthlyException(404, $"Classroom with ID  {bimonthlyDto.ClassroomId} not found.");
         }
 
         foreach (var disciplineId in bimonthlyDto.DisciplinesId)

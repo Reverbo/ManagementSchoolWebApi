@@ -14,13 +14,13 @@ namespace Management.Infrastructure.Database.Repositories;
 public class ClassroomRepository : IClassroomRepositoryGateway
 {
     private readonly IMongoCollection<ClassroomEntity> _classrooms;
-    private readonly IMongoCollection<StudentEntity> _students;
+    private readonly IStudentReposityGateway _students;
     private readonly IMapper _mapper;
 
-    public ClassroomRepository(IMongoDatabase database, IMapper mapper)
+    public ClassroomRepository(IMongoDatabase database, IMapper mapper, IStudentReposityGateway students)
     {
         _classrooms = database.GetCollection<ClassroomEntity>("classrooms");
-        _students = database.GetCollection<StudentEntity>("students");
+        _students = students;
         _mapper = mapper;
     }
 
@@ -180,8 +180,16 @@ public class ClassroomRepository : IClassroomRepositoryGateway
     
     private async Task<List<StudentEntity>> GetStudentList(List<string> studentsIds)
     {
-        var studentsId = studentsIds.Select(itemId => new ObjectId(itemId)).ToList();
-        var students = await _students.Find(student => studentsId.Contains(student.Id)).ToListAsync();
-        return students;
+        var students = new List<StudentDTO>();
+        foreach (var studentId in studentsIds)
+        {
+            var studentGetById = await _students.GetById(studentId);
+            if (studentGetById != null)
+            {
+                students.Add(studentGetById);
+            }
+        }
+
+        return _mapper.Map<List<StudentEntity>>(students);
     }
 }

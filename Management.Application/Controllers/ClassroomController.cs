@@ -61,9 +61,9 @@ public class ClassroomController : ControllerBase
             var classroomUpdateDto = _mapper.Map<ClassroomUpdateStudentsDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.AddStudents(classroomUpdateDto, classroomId);
             var classroomResponse = _mapper.Map<ClassroomResponseResource>(classroom);
-            var response =
+            var messageResponse =
                 $"Foram adicionados a turma do ID: {classroomResponse.Id} os seguintes estudantes de ID: {string.Join(", ", classroomUpdateDto.StudentsId)}";
-            return StatusCode(200, response);
+            return StatusCode(200, messageResponse);
         }
         catch (ClassroomException exception)
         {
@@ -79,9 +79,9 @@ public class ClassroomController : ControllerBase
             var classroomUpdateDto = _mapper.Map<ClassroomUpdateStudentsDTO>(classroomRequest);
             var classroom = await _classroomCrudUseCases.RemoveStudents(classroomUpdateDto, classroomId);
             var classroomResponse = _mapper.Map<ClassroomResponseResource>(classroom);
-            var response =
+            var messageResponse =
                 $"Foram removidos da turma do ID: {classroomResponse.Id} os seguintes estudantes de ID: {string.Join(", ", classroomRequest.StudentsId)}";
-            return StatusCode(200, response);
+            return StatusCode(200, messageResponse);
         }
         catch (ClassroomException exception)
         {

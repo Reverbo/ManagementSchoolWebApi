@@ -30,7 +30,7 @@ public class AverageController : ControllerBase
             var response = _mapper.Map<AverageResource>(average);
             return StatusCode(201, response);
         }
-        catch (AverageException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

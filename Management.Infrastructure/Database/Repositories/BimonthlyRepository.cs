@@ -1,5 +1,7 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Bimonthly;
+using Management.Domain.Domains.DTO.Discipline;
+using Management.Domain.Gateway;
 using Management.Domain.Gateway.Bimonthly;
 using Management.Infrastructure.Database.Entities;
 using Management.Infrastructure.Database.Entities.Bimonthly;
@@ -11,13 +13,13 @@ namespace Management.Infrastructure.Database.Repositories;
 public class BimonthlyRepository : IBimonthlyRepositoryGateway
 {
     private readonly IMongoCollection<BimonthlyEntity> _bimonthly;
-    private readonly IMongoCollection<DisciplineEntity> _discipline;
+    private readonly IDisciplineRepositoryGateway _discipline;
     private readonly IMapper _mapper;
 
-    public BimonthlyRepository(IMongoDatabase database, IMapper mapper)
+    public BimonthlyRepository(IMongoDatabase database, IMapper mapper, IDisciplineRepositoryGateway discipline)
     {
         _bimonthly = database.GetCollection<BimonthlyEntity>("bimonthlys");
-        _discipline = database.GetCollection<DisciplineEntity>("disciplines");
+        _discipline = discipline;
         _mapper = mapper;
     }
 
@@ -65,7 +67,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<BimonthlyResponseDTO>(classroomResponse);
     }
 
-    public async Task<BimonthlyResponseDTO?> AddDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto,
+    public async Task<BimonthlyResponseDTO?> AddDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto, 
         string bimonthlyId)
     {
         var objectId = new ObjectId(bimonthlyId);
@@ -80,7 +82,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         {
             existingBimonthly.DisciplinesId.Add(disciplineId);
         }
-        
+
         var disciplineList = await GetDisciplineList(existingBimonthly.DisciplinesId);
 
         var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(existingBimonthly);
@@ -96,7 +98,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<BimonthlyResponseDTO>(bimonthlyResponse);
     }
 
-    public async Task<BimonthlyResponseDTO?> RemoveDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto,
+    public async Task<BimonthlyResponseDTO?> RemoveDisciplines(BimonthlyUpdateDisciplinesDTO bimonthlyDto, 
         string bimonthlyId)
     {
         var objectId = new ObjectId(bimonthlyId);
@@ -106,7 +108,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         {
             return null;
         }
-                
+
         foreach (var disciplineId in bimonthlyDto.DisciplinesId)
         {
             bimonthlyEntity.DisciplinesId.Remove(disciplineId);
@@ -177,7 +179,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         ).ToList();
 
         var bimonthlyResponseDtoList = new List<BimonthlyResponseEntity>();
-        
+
         foreach (var bimonthlyItem in bimonthlyDateFilter)
         {
             var disciplineList = await GetDisciplineList(bimonthlyItem.DisciplinesId);
@@ -185,14 +187,22 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
             bimonthlyMap.Disciplines = disciplineList;
             bimonthlyResponseDtoList.Add(bimonthlyMap);
         }
+
         return _mapper.Map<List<BimonthlyResponseDTO>>(bimonthlyResponseDtoList).ToList();
     }
 
     private async Task<List<DisciplineEntity>> GetDisciplineList(List<string> disciplineIds)
     {
-        var disciplinesId = disciplineIds.Select(itemId => new ObjectId(itemId)).ToList();
-        var disciplines = await _discipline.Find(student => disciplinesId.Contains(student.Id)).ToListAsync();
-        
-        return disciplines;
+        var disciplines = new List<DisciplineResponseDTO>();
+        foreach (var disciplineId in disciplineIds)
+        {
+            var disciplineGetById = await _discipline.GetById(disciplineId);
+            if (disciplineGetById != null)
+            {
+                disciplines.Add(disciplineGetById);
+            }
+        }
+
+        return _mapper.Map<List<DisciplineEntity>>(disciplines);
     }
 }

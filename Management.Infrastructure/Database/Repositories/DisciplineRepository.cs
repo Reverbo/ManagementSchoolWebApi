@@ -1,6 +1,8 @@
 using AutoMapper;
+using Management.Domain.Domains.DTO.Average;
 using Management.Domain.Domains.DTO.Discipline;
 using Management.Domain.Gateway;
+using Management.Domain.Gateway.Average;
 using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using MongoDB.Bson;
@@ -11,13 +13,13 @@ namespace Management.Infrastructure.Database.Repositories;
 public class DisciplineRepository : IDisciplineRepositoryGateway
 {
     private readonly IMongoCollection<DisciplineEntity> _disciplines;
-    private readonly IMongoCollection<AverageEntity> _averages;
+    private readonly IAverageRepositoryGateway _averages;
     private readonly IMapper _mapper;
 
-    public DisciplineRepository(IMongoDatabase database, IMapper mapper)
+    public DisciplineRepository(IMongoDatabase database, IMapper mapper, IAverageRepositoryGateway averages)
     {
         _disciplines = database.GetCollection<DisciplineEntity>("disciplines");
-        _averages = database.GetCollection<AverageEntity>("averages");
+        _averages = averages;
         _mapper = mapper;
     }
 
@@ -70,12 +72,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
             existingDiscipline.AveragesId.Add(averageId);
         }
 
-        var averageEntitiesList = existingDiscipline.AveragesId.Select(itemId =>
-        {
-            var averageObjectId = new ObjectId(itemId);
-            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == averageObjectId).FirstOrDefault();
-            return averageEntity;
-        }).ToList();
+        var averageEntitiesList = await GetAverageList(existingDiscipline.AveragesId);
 
         var disciplineResponse = _mapper.Map<DisciplineResponseEntity>(existingDiscipline);
         disciplineResponse.Averages = averageEntitiesList;
@@ -90,7 +87,8 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         return _mapper.Map<DisciplineResponseDTO>(disciplineResponse);
     }
 
-    public async Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId)
+    public async Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateAveragesDTO discipline,
+        string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
         var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
@@ -105,12 +103,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
             existingDiscipline.AveragesId.Remove(averageId);
         }
 
-        var averageEntitiesList = existingDiscipline.AveragesId.Select(itemId =>
-        {
-            var averageObjectId = new ObjectId(itemId);
-            var averageEntity = _averages.Find(itemAverage => itemAverage.Id == averageObjectId).FirstOrDefault();
-            return averageEntity;
-        }).ToList();
+        var averageEntitiesList = await GetAverageList(existingDiscipline.AveragesId);
 
         var disciplineResponse = _mapper.Map<DisciplineResponseEntity>(existingDiscipline);
         disciplineResponse.Averages = averageEntitiesList;
@@ -139,7 +132,7 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         return _mapper.Map<DisciplineDTO>(existingDiscipline);
     }
 
-    public async Task<DisciplineDTO?> GetById(string disciplineId)
+    public async Task<DisciplineResponseDTO?> GetById(string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
         var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
@@ -148,7 +141,40 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         {
             return null;
         }
+        var averageList = await GetAverageList(existingDiscipline.AveragesId);
 
+        var disciplineResponse = _mapper.Map<DisciplineResponseEntity>(existingDiscipline);
+        disciplineResponse.Averages = averageList;
+
+        return _mapper.Map<DisciplineResponseDTO>(disciplineResponse);
+    }
+
+    public async Task<DisciplineDTO?> GetByAverage(string disciplineId)
+    {
+        var disciplineObjectId = new ObjectId(disciplineId);
+        var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
+
+        if (existingDiscipline == null)
+        {
+            return null;
+        }
+        
         return _mapper.Map<DisciplineDTO>(existingDiscipline);
     }
+    
+    private async Task<List<AverageEntity>> GetAverageList(List<string> averageIds)
+    {
+        var averages = new List<AverageDTO>();
+        foreach (var averageId in averageIds)
+        {
+            var averageGetById = await _averages.GetById(averageId);
+            if (averageGetById != null)
+            {
+                averages.Add(averageGetById);
+            }
+        }
+
+        return _mapper.Map<List<AverageEntity>>(averages);
+    }
+    
 }

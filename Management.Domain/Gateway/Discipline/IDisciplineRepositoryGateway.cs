@@ -9,5 +9,6 @@ public interface IDisciplineRepositoryGateway
     Task<DisciplineResponseDTO?> AddAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId);
     Task<DisciplineResponseDTO?> RemoveAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId);
     Task<DisciplineDTO?> Delete(string disciplineId);
-    Task<DisciplineDTO?> GetById(string disciplineId);
+    Task<DisciplineResponseDTO?> GetById(string disciplineId);
+    Task<DisciplineDTO?> GetByAverage(string averageId);
 }

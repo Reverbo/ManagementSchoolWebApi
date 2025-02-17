@@ -8,6 +8,6 @@ public interface IDisciplineCrudUseCase
     Task<DisciplineResponseDTO> Update(DisciplineUpdateDTO discipline, string disciplineId);
     Task<DisciplineResponseDTO> AddAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId);
     Task<DisciplineResponseDTO> RemoveAverages(DisciplineUpdateAveragesDTO discipline, string disciplineId);
-    Task<DisciplineDTO> Delete(string disciplineId);
-    Task<DisciplineDTO> GetById(string disciplineId);
+    Task Delete(string disciplineId);
+    Task<DisciplineResponseDTO> GetById(string disciplineId);
 }
