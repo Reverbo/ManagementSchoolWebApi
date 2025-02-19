@@ -30,7 +30,7 @@ public class ClassroomController : ControllerBase
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(201, response);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -46,7 +46,7 @@ public class ClassroomController : ControllerBase
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(200, response);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -65,7 +65,7 @@ public class ClassroomController : ControllerBase
                 $"Foram adicionados a turma do ID: {classroomResponse.Id} os seguintes estudantes de ID: {string.Join(", ", classroomUpdateDto.StudentsId)}";
             return StatusCode(200, messageResponse);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -83,7 +83,7 @@ public class ClassroomController : ControllerBase
                 $"Foram removidos da turma do ID: {classroomResponse.Id} os seguintes estudantes de ID: {string.Join(", ", classroomRequest.StudentsId)}";
             return StatusCode(200, messageResponse);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -97,7 +97,7 @@ public class ClassroomController : ControllerBase
             await _classroomCrudUseCases.Delete(classroomId);
             return StatusCode(204);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -112,7 +112,7 @@ public class ClassroomController : ControllerBase
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(200, response);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -127,7 +127,7 @@ public class ClassroomController : ControllerBase
             var response = _mapper.Map<ClassroomResponseResource>(classroom);
             return StatusCode(200, response);
         }
-        catch (ClassroomException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

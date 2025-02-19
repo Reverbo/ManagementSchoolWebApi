@@ -46,7 +46,7 @@ public class AverageController : ControllerBase
             var response = _mapper.Map<AverageResource>(average);
             return StatusCode(200, response);
         }
-        catch (AverageException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -60,7 +60,7 @@ public class AverageController : ControllerBase
             await _averageCrudUseCase.Delete(averageId);
             return StatusCode(204);
         }
-        catch (AverageException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -75,7 +75,7 @@ public class AverageController : ControllerBase
             var response = _mapper.Map<List<AverageResource>>(averageList);
             return StatusCode(200, response);
         }
-        catch (AverageException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -90,7 +90,7 @@ public class AverageController : ControllerBase
             var response = _mapper.Map<AverageResource>(average);
             return StatusCode(200, response);
         }
-        catch (AverageException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

@@ -1,9 +1,7 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class StudentException : Exception
+public class StudentException : BaseManagementSchoolException
 {
-    public int StatusCode { get; set; }
-
     public StudentException()  : base("Student exception error") {}
     
     public StudentException(string message) : base(message) {}

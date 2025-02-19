@@ -1,9 +1,7 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class ClassroomException : Exception
+public class ClassroomException : BaseManagementSchoolException
 {
-    public int StatusCode { get; set; }
-
     public ClassroomException() : base("Classroom exception error")
     {
     }

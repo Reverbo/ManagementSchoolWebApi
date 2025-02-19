@@ -1,9 +1,7 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class DisciplineException : Exception
+public class DisciplineException : BaseManagementSchoolException
 {
-    public int StatusCode { get; set; }
-
     public DisciplineException() : base("Discipline exception error.")
     {
     }

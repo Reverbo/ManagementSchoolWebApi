@@ -1,5 +1,6 @@
 using Management.Domain.Domains.DTO.Bimonthly;
 using Management.Domain.Domains.Exceptions;
+using Management.Domain.Domains.Exceptions.Bimonthly;
 using Management.Domain.Gateway;
 using Management.Domain.Gateway.Bimonthly;
 using Management.Domain.Gateway.Classroom;
@@ -36,7 +37,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (bimonthly == null)
         {
-            throw new BimonthlyException(404, $"Bimonthly with ID {bimonthlyId} not found.");
+            throw new BimonthlyNotFoundException(404, $"Bimonthly with ID {bimonthlyId} not found.");
         }
 
         return bimonthly;
@@ -53,7 +54,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
         {
             if (disciplinesGetIds.Contains(disciplineId))
             {
-                throw new BimonthlyException(400,
+                throw new DisciplineAlreadyException(400,
                     $"Unable to add disciplines. Discipline ID {disciplineId} has already been added.");
             }
         }
@@ -79,7 +80,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
         {
             if (!disciplinesGetIds.Contains(disciplineId))
             {
-                throw new BimonthlyException(400,
+                throw new DisciplineNotFoundForStudentException(400,
                     $"Unable to remove disciplines. The discipline {disciplineId} could not be removed because he does not exist in this bimonthly.");
             }
         }
@@ -95,7 +96,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (!existingBimonthly)
         {
-            throw new BimonthlyException(404, $"Bimonthly with ID {bimonthlyId} not found.");
+            throw new BimonthlyNotFoundException(404, $"Bimonthly with ID {bimonthlyId} not found.");
         }
     }
 
@@ -105,7 +106,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (bimonthly == null)
         {
-            throw new BimonthlyException(404, $"Bimonthly with ID {bimonthlyId} not found.");
+            throw new BimonthlyNotFoundException(404, $"Bimonthly with ID {bimonthlyId} not found.");
         }
 
         return bimonthly;
@@ -118,7 +119,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (dateIsInvalid)
         {
-            throw new BimonthlyException(400,
+            throw new BimonthlyInvalidDateException(400,
                 "Invalid date. The start date and/or the end date are not valid.");
         }
         
@@ -126,7 +127,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (bimonthlyList == null)
         {
-            throw new BimonthlyException(404,
+            throw new BimonthlyInvalidDateException(404,
                 $"Bimonthly with this period not found. StartDate: {bimonthlyDates.StartDate} | EndStar: {bimonthlyDates.EndDate}");
         }
 
@@ -141,7 +142,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
             if (existingDiscipline == null)
             {
-                throw new ClassroomException(404,
+                throw new DisciplineNotFoundException(404,
                     $"The following discipline ID do not exist: {itemClassroomId}");
             }
         }
@@ -153,7 +154,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (!existingClassroom)
         {
-            throw new BimonthlyException(404, $"Classroom with ID  {bimonthlyDto.ClassroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID  {bimonthlyDto.ClassroomId} not found.");
         }
 
         foreach (var disciplineId in bimonthlyDto.DisciplinesId)
@@ -162,7 +163,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
             if (!existingDiscipline)
             {
-                throw new BimonthlyException(404,
+                throw new DisciplineNotFoundException(404,
                     $"Unable create Bimonthly. Discipline with ID {disciplineId} not  found.");
             }
         }
@@ -179,7 +180,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (dateIsInvalid)
         {
-            throw new BimonthlyException(400,
+            throw new BimonthlyInvalidDateException(400,
                 "Invalid date. The start date must be after the current date and the end date cannot be before the start date.");
         }
     }
@@ -190,7 +191,7 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
 
         if (bimonthlyGetById == null)
         {
-            throw new BimonthlyException(404, $"Classroom with ID {bimonthlyId} not found.");
+            throw new DisciplineNotFoundException(404, $"Classroom with ID {bimonthlyId} not found.");
         }
 
         var bimonthlyGetIds =

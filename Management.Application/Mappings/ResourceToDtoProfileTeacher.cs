@@ -11,5 +11,6 @@ public class ResourceToDtoProfileTeacher : Profile
     {
         CreateMap<TeacherResource, TeacherDTO>().ReverseMap();
         CreateMap<TeacherDTO, TeacherEntity>().ReverseMap();
+        CreateMap<TeacherUpdateDTO, TeacherUpdateResource>().ReverseMap();
     }
 }

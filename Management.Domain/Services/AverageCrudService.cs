@@ -27,7 +27,7 @@ public class AverageCrudService : IAverageCrudUseCase
 
         if (!existingStudent)
         {
-            throw new AverageException(404,
+            throw new StudentNotFoundException(404,
                 $"It is necessary for the student to exist in order to register a average.");
         }
 
@@ -35,7 +35,7 @@ public class AverageCrudService : IAverageCrudUseCase
 
         if (!existingDiscipline)
         {
-            throw new AverageException(404,
+            throw new DisciplineNotFoundException(404,
                 $"It is necessary for the discipline to exist in order to register a average.");
         }
 
@@ -48,7 +48,7 @@ public class AverageCrudService : IAverageCrudUseCase
 
         if (average == null)
         {
-            throw new AverageException(404, $"Average with ID {averageId} not found.");
+            throw new AverageNotFoundException(404, $"Average with ID {averageId} not found.");
         }
 
         var scoresIsValid = score.FirstScore is >= 0 and <= 10 &&
@@ -56,7 +56,7 @@ public class AverageCrudService : IAverageCrudUseCase
         
         if (!scoresIsValid)
         {
-            throw new AverageException(404, $"Scores must be between 0 and 10.");
+            throw new ScoreInvalidException(404, $"Scores must be between 0 and 10.");
         }
 
         return average;
@@ -68,7 +68,7 @@ public class AverageCrudService : IAverageCrudUseCase
 
         if (average == null)
         {
-            throw new AverageException(404, $"Average with ID {averageId} not found.");
+            throw new AverageNotFoundException(404, $"Average with ID {averageId} not found.");
         }
 
         return average;
@@ -85,7 +85,7 @@ public class AverageCrudService : IAverageCrudUseCase
 
         if (average == null)
         {
-            throw new AverageException(404, $"Average with ID {averageId} not found.");
+            throw new AverageNotFoundException(404, $"Average with ID {averageId} not found.");
         }
 
         return average;

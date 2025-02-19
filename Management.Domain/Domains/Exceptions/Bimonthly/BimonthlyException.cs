@@ -1,9 +1,7 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class BimonthlyException : Exception
+public class BimonthlyException : BaseManagementSchoolException
 {
-    public int StatusCode { get; set; }
-
     public BimonthlyException() : base("Bimonthly exception error.")
     {
     }
