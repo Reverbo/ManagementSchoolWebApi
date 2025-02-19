@@ -3,7 +3,6 @@ using Management.Domain.Domains.DTO.Average;
 using Management.Domain.Domains.DTO.Discipline;
 using Management.Domain.Gateway;
 using Management.Domain.Gateway.Average;
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -147,19 +146,6 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
         disciplineResponse.Averages = averageList;
 
         return _mapper.Map<DisciplineResponseDTO>(disciplineResponse);
-    }
-
-    public async Task<DisciplineDTO?> GetByAverage(string disciplineId)
-    {
-        var disciplineObjectId = new ObjectId(disciplineId);
-        var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
-
-        if (existingDiscipline == null)
-        {
-            return null;
-        }
-        
-        return _mapper.Map<DisciplineDTO>(existingDiscipline);
     }
     
     private async Task<List<AverageEntity>> GetAverageList(List<string> averageIds)

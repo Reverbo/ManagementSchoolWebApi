@@ -91,7 +91,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
                     $"The average Id: {itemAverageId} does not exist.");
             }
 
-            var existingAverageIds = await GetAverageIds(disciplineId);
+            var existingAverageIds = await GetDisciplinesAveragesIds(disciplineId);
             if (existingAverageIds.Contains(itemAverageId))
             {
                 throw new AverageAlreadyException(404,
@@ -121,7 +121,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
                     $"The following average IDs do not exist: {itemAverageId}");
             }
 
-            var getAveragesRemoveId = await GetAverageIds(disciplineId);
+            var getAveragesRemoveId = await GetDisciplinesAveragesIds(disciplineId);
             if (!getAveragesRemoveId.Contains(itemAverageId))
             {
                 throw new AverageNotFoundException(404,
@@ -156,10 +156,18 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         return existingDiscipline;
     }
 
-    private async Task<List<string>> GetAverageIds(string disciplineId)
+    private async Task<List<string>> GetDisciplinesAveragesIds(string disciplineId)
     {
-        var itemDiscipline = await _disciplineRepositoryGateway.GetByAverage(disciplineId);
-        var existingAverageIds = itemDiscipline?.AveragesId.Select(itemId => itemId.ToString()).ToList();
-        return existingAverageIds ?? [];
+        var disciplineGetById = await _disciplineRepositoryGateway.GetById(disciplineId);
+
+        if (disciplineGetById == null)
+        {
+            throw new BimonthlyException(404, $"Discipline with ID {disciplineId} not found.");
+        }
+
+        var disciplineGetIds =
+            disciplineGetById.Averages.Select(average => average.Id.ToString()).ToList() ?? [];
+
+        return disciplineGetIds;
     }
 }

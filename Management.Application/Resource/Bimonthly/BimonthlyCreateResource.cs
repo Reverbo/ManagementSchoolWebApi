@@ -1,12 +1,8 @@
-using Management.Resource.Discipline;
-
 namespace Management.Resource.Bimonthly;
 
-public class BimonthlyResponseResource
+public class BimonthlyCreateResource
 {
-    public string? Id { get; set; }
     public required string StartDate { get; set; }
     public required string EndDate { get; set; }
     public required string ClassroomId { get; set; }
-    public required List<DisciplineResponseResource> Disciplines { get; set; }
 }

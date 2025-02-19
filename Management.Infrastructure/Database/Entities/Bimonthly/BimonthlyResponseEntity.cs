@@ -20,5 +20,5 @@ public class BimonthlyResponseEntity
     public required string ClassroomId { get; set; }
     
     [BsonRequired] 
-    public required List<DisciplineEntity> Disciplines { get; set; }
+    public required List<DisciplineResponseEntity> Disciplines { get; set; }
 }

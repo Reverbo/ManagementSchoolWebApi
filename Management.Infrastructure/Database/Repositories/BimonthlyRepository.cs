@@ -23,16 +23,13 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         _mapper = mapper;
     }
 
-    public async Task<BimonthlyResponseDTO> Create(BimonthlyDTO bimonthly)
+    public async Task<BimonthlyResponseDTO> Create(BimonthlyCreateDTO bimonthly)
     {
         var bimonthlyEntity = _mapper.Map<BimonthlyEntity>(bimonthly);
         bimonthlyEntity.Id = ObjectId.GenerateNewId();
+        bimonthlyEntity.DisciplinesId = [];
         await _bimonthly.InsertOneAsync(bimonthlyEntity);
-
-        var disciplineList = await GetDisciplineList(bimonthly.DisciplinesId);
-
         var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(bimonthlyEntity);
-        bimonthlyResponse.Disciplines = disciplineList;
 
         return _mapper.Map<BimonthlyResponseDTO>(bimonthlyResponse);
     }
@@ -191,7 +188,7 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         return _mapper.Map<List<BimonthlyResponseDTO>>(bimonthlyResponseDtoList).ToList();
     }
 
-    private async Task<List<DisciplineEntity>> GetDisciplineList(List<string> disciplineIds)
+    private async Task<List<DisciplineResponseEntity>> GetDisciplineList(List<string> disciplineIds)
     {
         var disciplines = new List<DisciplineResponseDTO>();
         foreach (var disciplineId in disciplineIds)
@@ -203,6 +200,6 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
             }
         }
 
-        return _mapper.Map<List<DisciplineEntity>>(disciplines);
+        return _mapper.Map<List<DisciplineResponseEntity>>(disciplines);
     }
 }
