@@ -30,7 +30,7 @@ public class BimonthlyController : ControllerBase
             var response = _mapper.Map<BimonthlyResponseResource>(bimonthly);
             return StatusCode(201, response);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -46,7 +46,7 @@ public class BimonthlyController : ControllerBase
             var response = _mapper.Map<BimonthlyResponseResource>(bimonthly);
             return StatusCode(200, response);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -65,7 +65,7 @@ public class BimonthlyController : ControllerBase
                 $"Foram adicionados ao bimestre do ID: {bimonthlyResponse.Id} as disciplinas de ID: {string.Join(", ", bimonthlyUpdateDto.DisciplinesId)}";
             return StatusCode(200, messageResponse);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -84,7 +84,7 @@ public class BimonthlyController : ControllerBase
                 $"Foram adicionados ao bimestre do ID: {bimonthlyResponse.Id} as disciplinas de ID: {string.Join(", ", bimonthlyUpdateDto.DisciplinesId)}";
             return StatusCode(200, messageResponse);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -99,7 +99,7 @@ public class BimonthlyController : ControllerBase
             await _bimonthlyCrudUseCase.Delete(bimonthlyId);
             return StatusCode(204);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -114,7 +114,7 @@ public class BimonthlyController : ControllerBase
             var response = _mapper.Map<BimonthlyResponseResource>(bimonthly);
             return StatusCode(200, response);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -130,7 +130,7 @@ public class BimonthlyController : ControllerBase
             var response = _mapper.Map<List<BimonthlyResponseResource>>(bimonthlyList).ToList();
             return StatusCode(200, response);
         }
-        catch (BimonthlyException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

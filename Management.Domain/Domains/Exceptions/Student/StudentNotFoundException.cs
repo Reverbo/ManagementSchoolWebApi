@@ -1,8 +1,8 @@
 namespace Management.Domain.Domains.Exceptions;
 
-public class StudentNotFoundException : BaseManagementSchoolException
+public class StudentNotFoundException : StudentException
 {
-    public StudentNotFoundException() : base("Average exception error.")
+    public StudentNotFoundException() : base("Student exception error.")
     {
     }
 

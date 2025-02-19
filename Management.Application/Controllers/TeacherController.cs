@@ -30,23 +30,23 @@ public class TeacherController : ControllerBase
             var response = _mapper.Map<TeacherResource>(teacher);
             return StatusCode(201, response);
         }
-        catch (TeacherException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
     }
 
     [HttpPut("{teacherId}")]
-    public async Task<IActionResult> Update(TeacherResource teacherRequest, string teacherId)
+    public async Task<IActionResult> Update(TeacherUpdateResource teacherRequest, string teacherId)
     {
         try
         {
-            var teacherRequestDto = _mapper.Map<TeacherDTO>(teacherRequest);
+            var teacherRequestDto = _mapper.Map<TeacherUpdateDTO>(teacherRequest);
             var teacher = await _teacherCrudUseCase.Update(teacherRequestDto, teacherId);
             var response = _mapper.Map<TeacherResource>(teacher);
             return StatusCode(200, response);
         }
-        catch (TeacherException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -60,7 +60,7 @@ public class TeacherController : ControllerBase
             await _teacherCrudUseCase.Delete(teacherId);
             return StatusCode(204);
         }
-        catch (TeacherException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -75,7 +75,7 @@ public class TeacherController : ControllerBase
             var response = _mapper.Map<List<TeacherResource>>(teacherList);
             return StatusCode(200, response);
         }
-        catch (TeacherException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -90,7 +90,7 @@ public class TeacherController : ControllerBase
             var response = _mapper.Map<TeacherResource>(teacher);
             return StatusCode(200, response);
         }
-        catch (TeacherException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

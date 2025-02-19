@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using Management.Domain.Domains.DTO.Discipline;
 using Management.Domain.Domains.Exceptions;
+using Management.Domain.Domains.Exceptions.Bimonthly;
+using Management.Domain.Domains.Exceptions.Teacher;
 using Management.Domain.Gateway;
 using Management.Domain.Gateway.Average;
 using Management.Domain.Gateway.Bimonthly;
@@ -35,11 +37,11 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         var existingTeacherId = await _teacherRepositoryGateway.GetById(disciplineDto.TeacherId) != null;
         if (!existingBimonthly)
         {
-            throw new DisciplineException(404, $"Bimonthly with ID {disciplineDto.BimonthlyId} not found.");
+            throw new BimonthlyNotFoundException(404, $"Bimonthly with ID {disciplineDto.BimonthlyId} not found.");
         }
         if (!existingTeacherId)
         {
-            throw new DisciplineException(404, $"Teacher with ID {disciplineDto.TeacherId} not found.");
+            throw new TeacherNotFoundException(404, $"Teacher with ID {disciplineDto.TeacherId} not found.");
         }
 
         return await _disciplineRepositoryGateway.Create(disciplineDto);
@@ -50,21 +52,21 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         var existingBimonthly = await _bimonthlyRepositoryGateway.GetById(disciplineDto.BimonthlyId) != null;
         if (!existingBimonthly)
         {
-            throw new DisciplineException(404, $"Bimonthly with ID {disciplineDto.BimonthlyId} not found.");
+            throw new BimonthlyNotFoundException(404, $"Bimonthly with ID {disciplineDto.BimonthlyId} not found.");
         }
         
         var existingTeacherId = await _teacherRepositoryGateway.GetById(disciplineDto.TeacherId) != null;
         
         if (!existingTeacherId)
         {
-            throw new DisciplineException(404, $"Teacher with ID {disciplineDto.TeacherId} not found.");
+            throw new TeacherNotFoundException(404, $"Teacher with ID {disciplineDto.TeacherId} not found.");
         }
 
         var existingDiscipline = await _disciplineRepositoryGateway.Update(disciplineDto, disciplineId);
 
         if (existingDiscipline == null)
         {
-            throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
+            throw new DisciplineNotFoundException(404, $"Discipline with ID {disciplineId} not found.");
         }
 
         return existingDiscipline;
@@ -76,7 +78,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         
         if (!existingDiscipline)
         {
-            throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
+            throw new DisciplineNotFoundException(404, $"Discipline with ID {disciplineId} not found.");
         }
 
         foreach (var itemAverageId in disciplineDto.AveragesId)
@@ -85,14 +87,14 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
 
             if (!existingAverage)
             {
-                throw new DisciplineException(404,
+                throw new AverageNotFoundException(404,
                     $"The average Id: {itemAverageId} does not exist.");
             }
 
             var existingAverageIds = await GetDisciplinesAveragesIds(disciplineId);
             if (existingAverageIds.Contains(itemAverageId))
             {
-                throw new DisciplineException(404,
+                throw new AverageAlreadyException(404,
                     $"The average Id: {itemAverageId} already exist.");
             }
         }
@@ -106,7 +108,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
         var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId) != null;
         if (!existingDiscipline)
         {
-            throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
+            throw new DisciplineNotFoundException(404, $"Discipline with ID {disciplineId} not found.");
         }
 
         foreach (var itemAverageId in disciplineDto.AveragesId)
@@ -115,14 +117,14 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
 
             if (!existingAverage)
             {
-                throw new DisciplineException(404,
+                throw new AverageNotFoundException(404,
                     $"The following average IDs do not exist: {itemAverageId}");
             }
 
             var getAveragesRemoveId = await GetDisciplinesAveragesIds(disciplineId);
             if (!getAveragesRemoveId.Contains(itemAverageId))
             {
-                throw new DisciplineException(404,
+                throw new AverageNotFoundException(404,
                     $"The average ID: {itemAverageId} does not exist in discipline: {disciplineId}.");
             }
         }
@@ -137,7 +139,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
 
         if (!existingDiscipline)
         {
-            throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
+            throw new DisciplineNotFoundException(404, $"Discipline with ID {disciplineId} not found.");
         }
 
     }
@@ -148,7 +150,7 @@ public class DisciplineCrudService : IDisciplineCrudUseCase
 
         if (existingDiscipline == null)
         {
-            throw new DisciplineException(404, $"Discipline with ID {disciplineId} not found.");
+            throw new DisciplineNotFoundException(404, $"Discipline with ID {disciplineId} not found.");
         }
 
         return existingDiscipline;

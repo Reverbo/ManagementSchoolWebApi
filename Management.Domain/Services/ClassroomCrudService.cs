@@ -26,7 +26,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
             if (!existingStudent)
             {
-                throw new ClassroomException(404, "It is necessary that all students exist.");
+                throw new StudentNotFoundException(404, "It is necessary that all students exist.");
             }
         }
 
@@ -43,7 +43,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         if (existingClassroom == null)
         {
-            throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {classroomId} not found.");
         }
 
         return existingClassroom;
@@ -59,7 +59,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         {
             if (classroomGetIds.Contains(studentId))
             {
-                throw new ClassroomException(400, $"Unable to add students. Student ID {studentId} has already been added.");
+                throw new StudentAlreadyException(400, $"Unable to add students. Student ID {studentId} has already been added.");
             }
         }
         
@@ -76,14 +76,14 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         
         if (classroomGetIds.Count == 0)
         {
-            throw new ClassroomException(404, $"Classroom with ID {classroomId} has not students.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {classroomId} has not students.");
         }
         
         foreach (var studentId in classroomDto.StudentsId)
         {
             if (!classroomGetIds.Contains(studentId))
             {
-                throw new ClassroomException(400, $"Unable to remove students. The student {studentId} could not be removed because he does not exist in this classroom.");
+                throw new StudentNotFoundException(400, $"Unable to remove students. The student {studentId} could not be removed because he does not exist in this classroom.");
             }
         }
         
@@ -98,7 +98,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         if (!existingClassroom)
         {
-            throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {classroomId} not found.");
         }
     }
 
@@ -108,7 +108,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         if (classroom == null)
         {
-            throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {classroomId} not found.");
         }
 
         return classroom;
@@ -120,7 +120,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         if (classroomWithName == null)
         {
-            throw new ClassroomException(404, $"{classroomName} Classroom does not exist");
+            throw new ClassroomNotFoundException(404, $"{classroomName} Classroom does not exist");
         }
 
         return classroomWithName;
@@ -134,7 +134,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
             if (existingStudent == null)
             {
-                throw new ClassroomException(404,
+                throw new StudentNotFoundException(404,
                     $"The following student ID do not exist: {itemStudentId}");
             }
         }
@@ -146,7 +146,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         
         if (classroomGetById == null)
         {
-            throw new ClassroomException(404, $"Classroom with ID {classroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {classroomId} not found.");
         }
         
         var classroomGetIds = classroomGetById.Students.Select(student => student.Id.ToString()).ToList() ?? [];
@@ -160,7 +160,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
 
         if (!existingClassroomWithThisName)
         {
-            throw new ClassroomException(400, "It was not possible to create a new classroom because a classroom with this name already exists.");
+            throw new ClassroomNotFoundException(400, "It was not possible to create a new classroom because a classroom with this name already exists.");
         }
 
         var currentDate = DateTime.Now;
@@ -171,7 +171,7 @@ public class ClassroomCrudService : IClassroomCrudUseCases
         
         if (dateIsInvalid)
         {
-            throw new ClassroomException(400, "Invalid date. Please provide a valid date within the current or next year.");
+            throw new ClassroomNotFoundException(400, "Invalid date. Please provide a valid date within the current or next year.");
         }
     }
 }

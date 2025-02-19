@@ -10,20 +10,24 @@ public class TeacherEntity
     [BsonElement("_id")]
     public ObjectId Id { get; set; }
 
-    [BsonRequired]
+    [BsonRequired] 
     public required string FullName { get; set; }
 
-    [BsonRequired]
-    public required int Age { get; set; }
+    [BsonRequired] 
+    
+    public required string DateBirth { get; set; }
 
     [BsonRequired]
-    public required string ClassroomDiscipline { get; set; }
+    public required string Cpf { get; set; }
 
     [BsonRequired]
-    public required string Contact { get; set; }
+    public required string TeacherContact { get; set; }
 
     [BsonRequired]
-    public required string ClassTeaching { get; set; }
+    public required string DisciplineId { get; set; }
+
+    [BsonRequired]
+    public required string ClassroomId { get; set; }
 
     [BsonRequired]
     public required decimal Salary { get; set; }

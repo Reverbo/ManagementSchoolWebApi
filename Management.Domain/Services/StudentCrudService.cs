@@ -23,11 +23,11 @@ public class StudentCrudService : IStudentCrudUseCase
         var existingClassroom = await _classroomReposityGateway.GetById(studentDto.ClassroomId) != null;
         if (!existingClassroom)
         { 
-            throw new StudentException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
         }
         if (studentDto.DateBirth >= DateOnly.FromDateTime(DateTime.Now))
         {
-            throw new StudentException(404,
+            throw new StudentNotFoundException(404,
                 $"The provided birth date is invalid as it cannot be later than today date.");
         }
 
@@ -42,7 +42,7 @@ public class StudentCrudService : IStudentCrudUseCase
         var existingClassroomId = await _classroomReposityGateway.GetById(studentDto.ClassroomId) != null;
         if (!existingClassroomId)
         {
-            throw new StudentException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
         }
 
         var updateStudent = await _studentReposityGateway.Update(studentDto, studentId);
@@ -76,7 +76,7 @@ public class StudentCrudService : IStudentCrudUseCase
         var existingStudentId = await _studentReposityGateway.GetById(studentId) != null;
         if (!existingStudentId)
         {
-            throw new StudentException(404, $"Student with ID {studentId} not found.");
+            throw new StudentNotFoundException(404, $"Student with ID {studentId} not found.");
         }
     }
 
@@ -87,12 +87,12 @@ public class StudentCrudService : IStudentCrudUseCase
         
         if (cpfAlreadyExist)
         {
-            throw new StudentException(404, "Student with CPF already exists.");
+            throw new StudentDocumentException(404, "Student with CPF already exists.");
         }
 
         if (rgAlreadyExist)
         {
-            throw new StudentException(404, "Student with RG already exists.");
+            throw new StudentDocumentException(404, "Student with RG already exists.");
         }
     }
 }
