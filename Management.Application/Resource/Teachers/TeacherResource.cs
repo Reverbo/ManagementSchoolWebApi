@@ -6,13 +6,15 @@ public class TeacherResource
 
     public required string FullName { get; set; }
 
-    public required int Age { get; set; }
+    public required string DateBirth { get; set; }
+    
+    public required string Cpf {get; set;}
+    
+    public required string TeacherContact { get; set; }
+    
+    public required string DisciplineId { get; set; }
 
-    public required string ClassroomDiscipline { get; set; }
-
-    public required string Contact { get; set; }
-
-    public required string ClassTeaching { get; set; }
+    public required string ClassroomId { get; set; }
 
     public required decimal Salary { get; set; }
 }

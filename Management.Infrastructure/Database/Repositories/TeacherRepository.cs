@@ -26,34 +26,32 @@ public class TeacherRepository : ITeacherRepositoryGateway
         return _mapper.Map<TeacherDTO>(teacherEntity);
     }
 
-    public async Task<TeacherDTO?> Update(TeacherDTO teacher, string teacherId)
+    public async Task<TeacherDTO?> Update(TeacherUpdateDTO teacher, string teacherId)
     {
-        var teacherObjectIdId = new ObjectId(teacherId);
-
+        var teacherObjectId = new ObjectId(teacherId);
         var teacherEntity =
-            _teachers.FindAsync(item => item.Id == teacherObjectIdId)
+            _teachers.FindAsync(item => item.Id == teacherObjectId)
                 .Result.FirstOrDefault();
 
         if (teacherEntity == null)
         {
             return null;
         }
-
-        teacherEntity.Age = teacher.Age;
-        teacherEntity.Contact = teacher.Contact;
-        teacherEntity.ClassTeaching = teacher.ClassTeaching;
+        
+        teacherEntity.TeacherContact = teacher.TeacherContact;
+        teacherEntity.ClassroomId = teacher.ClassroomId;
         teacherEntity.Salary = teacher.Salary;
-        teacherEntity.ClassroomDiscipline = teacher.ClassroomDiscipline;
+        teacherEntity.DisciplineId = teacher.DisciplineId;
         teacherEntity.FullName = teacher.FullName;
 
-        var result = await _teachers.ReplaceOneAsync(item => item.Id == teacherObjectIdId, teacherEntity);
+        var result = await _teachers.ReplaceOneAsync(item => item.Id == teacherObjectId, teacherEntity);
         
         if (!result.IsAcknowledged)
         {
             return null;
         }
 
-        var updatedEntity = await _teachers.Find(item => item.Id == teacherObjectIdId).FirstOrDefaultAsync();
+        var updatedEntity = await _teachers.Find(item => item.Id == teacherObjectId).FirstOrDefaultAsync();
 
         return _mapper.Map<TeacherDTO>(updatedEntity);
     }
@@ -94,5 +92,16 @@ public class TeacherRepository : ITeacherRepositoryGateway
         }
 
         return _mapper.Map<TeacherDTO>(teacher);
+    }
+    
+    public async Task<TeacherDTO?> GetByCpf(string cpf)
+    {
+        var existingStudent = await _teachers.Find(student => student.Cpf.Equals(cpf)).FirstOrDefaultAsync();
+        if (existingStudent == null)
+        {
+            return null;
+        }
+
+        return _mapper.Map<TeacherDTO>(existingStudent);
     }
 }

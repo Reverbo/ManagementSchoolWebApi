@@ -32,7 +32,7 @@ public class StudentController : ControllerBase
             var response = _mapper.Map<StudentResource>(student);
             return StatusCode(201, response);
         }
-        catch (StudentException exception)
+        catch (BaseManagementSchoolException exception)
         {
            return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -49,7 +49,7 @@ public class StudentController : ControllerBase
            var response =_mapper.Map<StudentResource>(student);
            return StatusCode(200, response);
         }
-        catch (StudentException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -64,7 +64,7 @@ public class StudentController : ControllerBase
             await _studentCrudUseCase.Delete(studentId);  
             return StatusCode(204);
         }
-        catch (StudentException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -79,7 +79,7 @@ public class StudentController : ControllerBase
             var response = _mapper.Map<List<StudentResource>>(studentList);
             return StatusCode(200, response);
         }
-        catch (StudentException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -94,7 +94,7 @@ public class StudentController : ControllerBase
             var response = _mapper.Map<StudentResource>(student);
             return StatusCode(200, response);
         }
-        catch (StudentException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }

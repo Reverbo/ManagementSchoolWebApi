@@ -31,7 +31,7 @@ public class DisciplineController : ControllerBase
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(201, response);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -47,7 +47,7 @@ public class DisciplineController : ControllerBase
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -63,7 +63,7 @@ public class DisciplineController : ControllerBase
             var response = _mapper.Map<DisciplineResponseResource>(discipline);
             return StatusCode(200, response);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -81,7 +81,7 @@ public class DisciplineController : ControllerBase
                 $"Foram removidos da discipline do ID: {disciplineReponse.Id} as seguintes médias de ID: {string.Join(", ", disciplineRequestDto.AveragesId)}";
             return StatusCode(200, messageResponse);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -95,7 +95,7 @@ public class DisciplineController : ControllerBase
             await _disciplineCrudUseCase.Delete(disciplineId);
             return StatusCode(204);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
@@ -110,7 +110,7 @@ public class DisciplineController : ControllerBase
             var response = _mapper.Map<DisciplineResource>(discipline);
             return StatusCode(200, response);
         }
-        catch (DisciplineException exception)
+        catch (BaseManagementSchoolException exception)
         {
             return StatusCode(exception.StatusCode, exception.Message);
         }
