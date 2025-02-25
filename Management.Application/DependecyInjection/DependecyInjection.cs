@@ -11,8 +11,11 @@ using Management.Domain.UseCases.Classroom;
 using Management.Domain.UseCases.Discipline;
 using Management.Domain.UseCases.Students;
 using Management.Domain.UseCases.Teachers;
+using Management.Filters.InputFilter.Interfaces;
+using Management.Filters.InputFilter.Validators.Average;
 using Management.Infrastructure.Database.Repositories;
 using Management.Mappings;
+using Management.Resource.Average;
 using MongoDB.Driver;
 
 namespace Management.DependecyInjection;
@@ -63,6 +66,8 @@ public static class DependecyInjection
 
         services.AddScoped<IBimonthlyCrudUseCase, BimonthlyCrudService>();
         services.AddScoped<IBimonthlyRepositoryGateway, BimonthlyRepository>();
+
+        services.AddScoped<IValidatorBase<AverageResource>, AverageValidator>();
 
         return services;
     }

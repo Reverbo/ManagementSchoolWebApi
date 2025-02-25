@@ -156,17 +156,6 @@ public class BimonthlyCrudService : IBimonthlyCrudUseCase
         {
             throw new ClassroomNotFoundException(404, $"Classroom with ID  {bimonthlyDto.ClassroomId} not found.");
         }
-
-        foreach (var disciplineId in bimonthlyDto.DisciplinesId)
-        {
-            var existingDiscipline = await _disciplineRepositoryGateway.GetById(disciplineId) != null;
-
-            if (!existingDiscipline)
-            {
-                throw new DisciplineNotFoundException(404,
-                    $"Unable create Bimonthly. Discipline with ID {disciplineId} not  found.");
-            }
-        }
         
         ValidatePeriod(bimonthlyDto.StartDate, bimonthlyDto.EndDate);
     }
