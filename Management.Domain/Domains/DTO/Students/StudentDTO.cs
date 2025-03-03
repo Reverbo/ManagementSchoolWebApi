@@ -8,7 +8,7 @@ public class StudentDTO
     
     public required string SocialName { get; set; }
     
-    public required DateOnly DateBirth { get; set; }
+    public required string DateBirth { get; set; }
     
     public required string ClassroomId { get; set; }
     

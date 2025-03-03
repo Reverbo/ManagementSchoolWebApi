@@ -17,7 +17,7 @@ public class StudentEntity
     public required string SocialName { get; set; }
     
     [BsonRequired]
-    public required DateOnly DateBirth { get; set; }
+    public required string DateBirth { get; set; }
     
     [BsonRequired]
     public required string ClassroomId { get; set; }

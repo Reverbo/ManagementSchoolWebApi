@@ -13,9 +13,19 @@ using Management.Domain.UseCases.Students;
 using Management.Domain.UseCases.Teachers;
 using Management.Filters.InputFilter.Interfaces;
 using Management.Filters.InputFilter.Validators.Average;
+using Management.Filters.InputFilter.Validators.Bimonthly;
+using Management.Filters.InputFilter.Validators.Classroom;
+using Management.Filters.InputFilter.Validators.Discipline;
+using Management.Filters.InputFilter.Validators.Student;
+using Management.Filters.InputFilter.Validators.Teacher;
 using Management.Infrastructure.Database.Repositories;
 using Management.Mappings;
 using Management.Resource.Average;
+using Management.Resource.Bimonthly;
+using Management.Resource.Classroom;
+using Management.Resource.Discipline;
+using Management.Resource.Student;
+using Management.Resource.Teachers;
 using MongoDB.Driver;
 
 namespace Management.DependecyInjection;
@@ -67,7 +77,28 @@ public static class DependecyInjection
         services.AddScoped<IBimonthlyCrudUseCase, BimonthlyCrudService>();
         services.AddScoped<IBimonthlyRepositoryGateway, BimonthlyRepository>();
 
-        services.AddScoped<IValidatorBase<AverageResource>, AverageValidator>();
+        services.AddScoped<IValidatorBase<BimonthlyCreateResource>, BimonthlyValidator>();
+        services.AddScoped<IValidatorBase<BimonthlyDatesResource>, BimonthlyUpdateValidator>();
+        services.AddScoped<IValidatorBase<BimonthlyUpdateDisciplinesResource>, BimonthlyUpdateDisciplinesValidator>();
+
+        services.AddScoped<IValidatorBase<AverageCreateResource>, AverageValidator>();
+        services.AddScoped<IValidatorBase<ScoresResource>, ScoreValidator>();
+        
+        services.AddScoped<IValidatorBase<TeacherResource>, TeacherValidator>();
+        services.AddScoped<IValidatorBase<TeacherUpdateResource>, TeacherUpdateValidator>();
+
+        services.AddScoped<IValidatorBase<StudentResource>, StudentValidator>();
+        services.AddScoped<IValidatorBase<StudentUpdateResource>, StudentUpdateValidator>();
+        
+        services.AddScoped<IValidatorBase<DisciplineCreateResource>, DisciplineValidator>();
+        services.AddScoped<IValidatorBase<DisciplineUpdateResource>, DisciplineUpdateValidator>();
+        services.AddScoped<IValidatorBase<DisciplineUpdateAveragesResource>, DisciplineUpdateAverageValidator>();
+
+        services.AddScoped<IValidatorBase<ClassroomResource>, ClassroomValidator>();
+        services.AddScoped<IValidatorBase<ClassroomUpdateResource>, ClassroomUpdateValidator>();
+        services.AddScoped<IValidatorBase<ClassroomUpdateStudentsResource>, ClassroomUpdateStudentsValidator>();
+
+
 
         return services;
     }

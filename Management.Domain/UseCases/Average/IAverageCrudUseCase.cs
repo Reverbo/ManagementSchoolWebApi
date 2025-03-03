@@ -4,7 +4,7 @@ namespace Management.Domain.UseCases.Average;
 
 public interface IAverageCrudUseCase
 {
-    Task<AverageDTO> Create(AverageDTO average);
+    Task<AverageDTO> Create(AverageCreateDTO average);
     Task<AverageDTO> Update(ScoresDTO score, string averageId);
     Task<AverageDTO> Delete(string averageId);
     Task<List<AverageDTO>> GetAll();

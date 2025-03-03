@@ -19,10 +19,11 @@ public class AverageRepository : IAverageRepositoryGateway
         _mapper = mapper;
     }
     
-    public async Task<AverageDTO> Create(AverageDTO average)
+    public async Task<AverageDTO> Create(AverageCreateDTO average)
     {
         var averageEntity = _mapper.Map<AverageEntity>(average);
         averageEntity.Id = ObjectId.GenerateNewId();
+        averageEntity.Total = ((averageEntity.Scores.FirstScore + averageEntity.Scores.SecondScore) / 2.0).ToString("F");
         await _averages.InsertOneAsync(averageEntity);
         return _mapper.Map<AverageDTO>(averageEntity);
     }
@@ -31,7 +32,7 @@ public class AverageRepository : IAverageRepositoryGateway
     {
         var averageObjectId = new ObjectId(averageId);
         var averageEntity = await _averages.Find(item => item.Id == averageObjectId).FirstOrDefaultAsync();
-
+        
         if (averageEntity == null )
         {
             return null;
@@ -39,7 +40,7 @@ public class AverageRepository : IAverageRepositoryGateway
 
         averageEntity.Scores.FirstScore = score.FirstScore;
         averageEntity.Scores.SecondScore = score.SecondScore;
-        averageEntity.Total = ((averageEntity.Scores.FirstScore + averageEntity.Scores.SecondScore) / 2.0).ToString(CultureInfo.InvariantCulture);
+        averageEntity.Total = ((averageEntity.Scores.FirstScore + averageEntity.Scores.SecondScore) / 2.0).ToString("F");
         
         var result = await _averages.ReplaceOneAsync(item => item.Id == averageObjectId, averageEntity);
         

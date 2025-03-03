@@ -4,7 +4,7 @@ namespace Management.Domain.Gateway.Average;
 
 public interface IAverageRepositoryGateway
 {
-    Task<AverageDTO> Create(AverageDTO average);
+    Task<AverageDTO> Create(AverageCreateDTO average);
     Task<AverageDTO?> Update(ScoresDTO score, string averageId);
     Task<AverageDTO?> Delete(string averageId);
     Task<List<AverageDTO>> GetAll();

@@ -5,16 +5,23 @@ using Management.Resource.Average;
 
 namespace Management.Filters.InputFilter.Validators.Average;
 
-public class AverageValidator : AbstractValidator<AverageResource>, IValidatorBase<AverageResource>
+public class AverageValidator : AbstractValidator<AverageCreateResource>, IValidatorBase<AverageCreateResource>
 {
     public AverageValidator()
     {
         RuleFor(average => average.DisciplineId)
+            .Matches("^[a-fA-F0-9]{24}$").WithMessage(AverageErrorMessage.StudentIdInvalid)
             .NotEmpty()
-            .WithMessage(AverageErrorMessage.DisciplineIdEmpty);
-        
-        RuleFor(average => average.Total)
+            .WithMessage(AverageErrorMessage.DisciplineIdEmpty)
+            .Matches("^[a-fA-F0-9]{24}$").WithMessage(AverageErrorMessage.DisciplineIdInvalid);
+
+        RuleFor(average => average.Scores)
             .NotEmpty()
-            .WithMessage(AverageErrorMessage.DisciplineIdEmpty);
+            .WithMessage(AverageErrorMessage.ScoresEmpty);
+
+        RuleFor(average => average.StudentId)
+            .Matches("^[a-fA-F0-9]{24}$").WithMessage(AverageErrorMessage.StudentIdInvalid)
+            .NotEmpty()
+            .WithMessage(AverageErrorMessage.StudentIdEmpty);
     }
 }

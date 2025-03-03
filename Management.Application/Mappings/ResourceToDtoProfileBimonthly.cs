@@ -9,7 +9,7 @@ public class ResourceToDtoProfileBimonthly : Profile
 {
     public ResourceToDtoProfileBimonthly()
     {
-        CreateMap<BimontlhyResource, BimonthlyDTO>().ReverseMap();
+        CreateMap<BimonthlyResource, BimonthlyDTO>().ReverseMap();
         CreateMap<BimonthlyDTO, BimonthlyEntity>().ReverseMap();
         
         CreateMap<BimonthlyEntity, BimonthlyResponseEntity>()

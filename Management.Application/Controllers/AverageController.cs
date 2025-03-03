@@ -21,11 +21,11 @@ public class AverageController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(AverageResource averageRequest)
+    public async Task<IActionResult> Create(AverageCreateResource averageRequest)
     {
         try
         {
-            var averageDto = _mapper.Map<AverageDTO>(averageRequest);
+            var averageDto = _mapper.Map<AverageCreateDTO>(averageRequest);
             var average = await _averageCrudUseCase.Create(averageDto);
             var response = _mapper.Map<AverageResource>(average);
             return StatusCode(201, response);

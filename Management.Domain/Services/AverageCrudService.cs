@@ -21,7 +21,7 @@ public class AverageCrudService : IAverageCrudUseCase
         _disciplineRepositoryGateway = disciplineRepositoryGateway;
     }
 
-    public async Task<AverageDTO> Create(AverageDTO average)
+    public async Task<AverageDTO> Create(AverageCreateDTO average)
     {
         var existingStudent = await _studentReposityGateway.GetById(average.StudentId) != null;
 
@@ -37,6 +37,14 @@ public class AverageCrudService : IAverageCrudUseCase
         {
             throw new DisciplineNotFoundException(404,
                 $"It is necessary for the discipline to exist in order to register a average.");
+        }
+        
+        var scoresIsValid = average.Scores.FirstScore is >= 0 and <= 10 &&
+                            average.Scores.SecondScore is >= 0 and <= 10;
+        
+        if (!scoresIsValid)
+        {
+            throw new ScoreInvalidException(404, $"Scores must be between 0 and 10.");
         }
 
         return await _averageRepositoryGateway.Create(average);

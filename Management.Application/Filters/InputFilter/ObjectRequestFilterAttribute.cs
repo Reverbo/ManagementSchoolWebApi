@@ -18,7 +18,7 @@ public class ObjectRequestFilterAttribute : ActionFilterAttribute
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         var requestIs = context.HttpContext.Request.Method;
-        var objectType = context.ActionArguments.Values.Last();
+        var objectType = context.ActionArguments.Values.First();
 
         if (requestIs != "POST" && requestIs != "PUT")
         {
