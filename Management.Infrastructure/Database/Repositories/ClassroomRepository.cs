@@ -1,10 +1,8 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Classroom;
 using Management.Domain.Domains.DTO.Students;
-using Management.Domain.Gateway;
 using Management.Domain.Gateway.Classroom;
 using Management.Domain.Gateway.Student;
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -42,17 +40,16 @@ public class ClassroomRepository : IClassroomRepositoryGateway
     {
         var objectId = new ObjectId(classroomId);
 
-        var existingClassroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var classroomEntity = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        if (existingClassroom == null)
+        if (classroomEntity == null)
         {
             return null;
         }
+        
+        classroomEntity.UpdateByClassroomDto(classroom);
 
-        existingClassroom.ClassName = classroom.ClassName;
-        existingClassroom.SchoolYear = classroom.SchoolYear;
-
-        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, existingClassroom);
+        var result = await _classrooms.ReplaceOneAsync(item => item.Id == objectId, classroomEntity);
 
         if (!result.IsAcknowledged)
         {
@@ -63,7 +60,7 @@ public class ClassroomRepository : IClassroomRepositoryGateway
 
         var studentList = await GetStudentList(updatedClassroom.StudentsId);
 
-        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(existingClassroom);
+        var classroomResponse = _mapper.Map<ClassroomResponseEntity>(classroomEntity);
         classroomResponse.Students = studentList;
 
         return _mapper.Map<ClassroomResponseDTO>(classroomResponse);
@@ -131,16 +128,16 @@ public class ClassroomRepository : IClassroomRepositoryGateway
     public async Task<ClassroomResponseDTO?> Delete(string classroomId)
     {
         var objectId = new ObjectId(classroomId);
-        var existingClassroom = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var classroomEntity = await _classrooms.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        if (existingClassroom == null)
+        if (classroomEntity == null)
         {
             return null;
         }
 
         await _classrooms.DeleteOneAsync(item => item.Id == objectId);
 
-        return _mapper.Map<ClassroomResponseDTO>(existingClassroom);
+        return _mapper.Map<ClassroomResponseDTO>(classroomEntity);
     }
 
     public async Task<ClassroomResponseDTO?> GetById(string classroomId)

@@ -1,6 +1,9 @@
+using AutoMapper;
+using Management.Domain.Gateway.Teacher;
+
 namespace Management.Domain.Domains.DTO.Teachers;
 
-public class TeacherUpdateDTO
+public class TeacherUpdateDTO 
 {
     public required string FullName { get; set; }
     

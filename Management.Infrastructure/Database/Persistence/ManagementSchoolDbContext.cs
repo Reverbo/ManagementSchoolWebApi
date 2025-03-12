@@ -1,6 +1,6 @@
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using Management.Infrastructure.Database.Entities.Bimonthly;
+using Management.Infrastructure.Database.Entities.Teacher;
 using Microsoft.EntityFrameworkCore;
 
 namespace Management.Infrasctructure.Database.Persistence;

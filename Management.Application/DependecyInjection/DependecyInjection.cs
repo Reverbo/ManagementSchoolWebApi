@@ -61,13 +61,13 @@ public static class DependecyInjection
 
         services.AddScoped<IStudentCrudUseCase, StudentCrudService>();
         services.AddScoped<IStudentReposityGateway, StudentRepository>();
-
+        
         services.AddScoped<IClassroomCrudUseCases, ClassroomCrudService>();
         services.AddScoped<IClassroomRepositoryGateway, ClassroomRepository>();
-
+        
         services.AddScoped<ITeacherCrudUseCase, TeacherCrudService>();
         services.AddScoped<ITeacherRepositoryGateway, TeacherRepository>();
-
+        
         services.AddScoped<IAverageCrudUseCase, AverageCrudService>();
         services.AddScoped<IAverageRepositoryGateway, AverageRepository>();
         
@@ -76,7 +76,7 @@ public static class DependecyInjection
 
         services.AddScoped<IBimonthlyCrudUseCase, BimonthlyCrudService>();
         services.AddScoped<IBimonthlyRepositoryGateway, BimonthlyRepository>();
-
+        
         services.AddScoped<IValidatorBase<BimonthlyCreateResource>, BimonthlyValidator>();
         services.AddScoped<IValidatorBase<BimonthlyDatesResource>, BimonthlyUpdateValidator>();
         services.AddScoped<IValidatorBase<BimonthlyUpdateDisciplinesResource>, BimonthlyUpdateDisciplinesValidator>();

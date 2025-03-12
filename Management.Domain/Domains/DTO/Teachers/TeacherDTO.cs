@@ -2,6 +2,7 @@ namespace Management.Domain.Domains.DTO.Teachers;
 
 public class TeacherDTO
 {
+    
     public string Id { get; set; }
 
     public required string FullName { get; set; }

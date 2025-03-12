@@ -33,19 +33,16 @@ public class DisciplineRepository : IDisciplineRepositoryGateway
     public async Task<DisciplineResponseDTO?> Update(DisciplineUpdateDTO discipline, string disciplineId)
     {
         var disciplineObjectId = new ObjectId(disciplineId);
-        var existingDiscipline = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
+        var disciplineEntity = await _disciplines.Find(item => item.Id == disciplineObjectId).FirstOrDefaultAsync();
 
-        if (existingDiscipline == null)
+        if (disciplineEntity == null)
         {
             return null;
         }
 
+       disciplineEntity.UpdateByDisciplineDto(discipline);
 
-        existingDiscipline.Name = discipline.Name;
-        existingDiscipline.TeacherId = discipline.TeacherId;
-        existingDiscipline.BimonthlyId = discipline.BimonthlyId;
-
-        var result = await _disciplines.ReplaceOneAsync(item => item.Id == disciplineObjectId, existingDiscipline);
+        var result = await _disciplines.ReplaceOneAsync(item => item.Id == disciplineObjectId, disciplineEntity);
 
         if (!result.IsAcknowledged)
         {

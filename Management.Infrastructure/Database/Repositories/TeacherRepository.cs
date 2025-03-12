@@ -1,7 +1,7 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Teachers;
 using Management.Domain.Gateway.Teacher;
-using Management.Infrasctructure.Database.Entities;
+using Management.Infrastructure.Database.Entities.Teacher;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -38,12 +38,8 @@ public class TeacherRepository : ITeacherRepositoryGateway
             return null;
         }
         
-        teacherEntity.TeacherContact = teacher.TeacherContact;
-        teacherEntity.ClassroomId = teacher.ClassroomId;
-        teacherEntity.Salary = teacher.Salary;
-        teacherEntity.DisciplineId = teacher.DisciplineId;
-        teacherEntity.FullName = teacher.FullName;
-
+        teacherEntity.UpdateByTeacherUpdateDto(teacher);
+        
         var result = await _teachers.ReplaceOneAsync(item => item.Id == teacherObjectId, teacherEntity);
         
         if (!result.IsAcknowledged)

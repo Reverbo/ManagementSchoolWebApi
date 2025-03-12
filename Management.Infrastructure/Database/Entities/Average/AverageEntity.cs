@@ -1,3 +1,4 @@
+using Management.Domain.Domains.DTO.Average;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -21,4 +22,11 @@ public class AverageEntity
     
     [BsonRequired] 
     public required ScoresEntity Scores { get; set; }
+    
+    public void UpdateByAverageDto(ScoresDTO scoresDto)
+    { 
+        Scores.FirstScore = scoresDto.FirstScore;
+        Scores.SecondScore = scoresDto.SecondScore;
+        Total = ((Scores.FirstScore + Scores.SecondScore) / 2.0).ToString("F");
+    }
 }

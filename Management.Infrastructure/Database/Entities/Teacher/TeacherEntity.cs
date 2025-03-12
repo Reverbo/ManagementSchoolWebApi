@@ -1,9 +1,10 @@
+using Management.Domain.Domains.DTO.Teachers;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Management.Infrasctructure.Database.Entities;
+namespace Management.Infrastructure.Database.Entities.Teacher;
 
-public class TeacherEntity
+public class TeacherEntity : ITeacher
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
@@ -31,4 +32,14 @@ public class TeacherEntity
 
     [BsonRequired]
     public required decimal Salary { get; set; }
+
+    public void UpdateByTeacherUpdateDto(TeacherUpdateDTO teacherUpdateDto)
+    {
+        TeacherContact = teacherUpdateDto.TeacherContact;
+        ClassroomId = teacherUpdateDto.ClassroomId;
+        Salary = teacherUpdateDto.Salary;
+        DisciplineId = teacherUpdateDto.DisciplineId;
+        FullName = teacherUpdateDto.FullName;
+    }
+    
 }

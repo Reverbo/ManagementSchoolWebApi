@@ -1,3 +1,4 @@
+using Management.Domain.Domains.DTO.Bimonthly;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -21,4 +22,10 @@ public class BimonthlyEntity
     
     [BsonRequired] 
     public required List<string> DisciplinesId { get; set; }
+    
+    public void UpdateByBimonthlyDto(BimonthlyDatesDTO bimonthlyDatesDto)
+    { 
+        StartDate = bimonthlyDatesDto.StartDate;
+        EndDate = bimonthlyDatesDto.EndDate;
+    }
 }

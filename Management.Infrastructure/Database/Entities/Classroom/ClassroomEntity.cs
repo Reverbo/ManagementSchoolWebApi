@@ -1,4 +1,4 @@
-using Management.Infrasctructure.Database.Entities;
+using Management.Domain.Domains.DTO.Classroom;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -20,4 +20,10 @@ public class ClassroomEntity
     
     [BsonRequired]
     public required List<string> StudentsId { get; set; }
+    
+    public void UpdateByClassroomDto(ClassroomUpdateDTO classroomUpdateDto)
+    { 
+        ClassName = classroomUpdateDto.ClassName;
+        SchoolYear = classroomUpdateDto.SchoolYear;
+    }
 }

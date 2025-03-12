@@ -1,4 +1,3 @@
-using System.Globalization;
 using AutoMapper;
 using Management.Domain.Domains.DTO.Average;
 using Management.Domain.Gateway.Average;
@@ -38,9 +37,7 @@ public class AverageRepository : IAverageRepositoryGateway
             return null;
         }
 
-        averageEntity.Scores.FirstScore = score.FirstScore;
-        averageEntity.Scores.SecondScore = score.SecondScore;
-        averageEntity.Total = ((averageEntity.Scores.FirstScore + averageEntity.Scores.SecondScore) / 2.0).ToString("F");
+        averageEntity.UpdateByAverageDto(score);
         
         var result = await _averages.ReplaceOneAsync(item => item.Id == averageObjectId, averageEntity);
         

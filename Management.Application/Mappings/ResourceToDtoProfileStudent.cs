@@ -1,6 +1,5 @@
 using AutoMapper;
 using Management.Domain.Domains.DTO.Students;
-using Management.Infrasctructure.Database.Entities;
 using Management.Infrastructure.Database.Entities;
 using Management.Resource.Student;
 

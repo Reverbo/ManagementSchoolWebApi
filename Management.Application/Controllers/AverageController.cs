@@ -2,6 +2,7 @@ using AutoMapper;
 using Management.Domain.Domains.DTO.Average;
 using Management.Domain.Domains.Exceptions;
 using Management.Domain.UseCases.Average;
+using Management.Infrastructure.Database.Entities.Teacher;
 using Management.Resource.Average;
 using Microsoft.AspNetCore.Mvc;
 
