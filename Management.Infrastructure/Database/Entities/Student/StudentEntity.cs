@@ -1,3 +1,4 @@
+using Management.Domain.Domains.DTO.Students;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -17,7 +18,7 @@ public class StudentEntity
     public required string SocialName { get; set; }
     
     [BsonRequired]
-    public required DateOnly DateBirth { get; set; }
+    public required string DateBirth { get; set; }
     
     [BsonRequired]
     public required string ClassroomId { get; set; }
@@ -36,5 +37,14 @@ public class StudentEntity
     
     [BsonRequired]
     public required string MotherName { get; set; }
+    
+    public void UpdateByStudentDto(StudentUpdateDTO studentUpdateDto)
+    { 
+        FullName = studentUpdateDto.FullName;
+        SocialName = studentUpdateDto.SocialName;
+        ClassroomId = studentUpdateDto.ClassroomId;
+        FatherName = studentUpdateDto.FatherName;
+        MotherName = studentUpdateDto.MotherName;
+    }
    
 }

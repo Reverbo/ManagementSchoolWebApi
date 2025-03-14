@@ -20,16 +20,24 @@ public class StudentCrudService : IStudentCrudUseCase
 
     public async Task<StudentDTO> Create(StudentDTO studentDto)
     {
-        var existingClassroom = await _classroomReposityGateway.GetById(studentDto.ClassroomId) != null;
-        if (!existingClassroom)
-        { 
-            throw new ClassroomNotFoundException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
-        }
-        if (studentDto.DateBirth >= DateOnly.FromDateTime(DateTime.Now))
+        var dateIsInvalid = !DateTime.TryParse(studentDto.DateBirth, out var dateBirthConvert);
+        if (dateIsInvalid)
         {
-            throw new StudentNotFoundException(404,
+            throw new StudentInvalidDateException(404, "date provided is invalid");
+        }
+
+        if (dateBirthConvert >= DateTime.Now)
+        {
+            throw new StudentInvalidDateException(404,
                 $"The provided birth date is invalid as it cannot be later than today date.");
         }
+
+        var existingClassroom = await _classroomReposityGateway.GetById(studentDto.ClassroomId) != null;
+        if (!existingClassroom)
+        {
+            throw new ClassroomNotFoundException(404, $"Classroom with ID {studentDto.ClassroomId} not found.");
+        }
+
 
         await VerifyDocumentsIsUnique(studentDto);
 
@@ -37,7 +45,7 @@ public class StudentCrudService : IStudentCrudUseCase
     }
 
     public async Task<StudentDTO> Update(StudentUpdateDTO studentDto, string studentId)
-    {   
+    {
         await ValidateStudentExistence(studentId);
         var existingClassroomId = await _classroomReposityGateway.GetById(studentDto.ClassroomId) != null;
         if (!existingClassroomId)
@@ -53,9 +61,9 @@ public class StudentCrudService : IStudentCrudUseCase
     {
         await ValidateStudentExistence(studentId);
 
-       var deleteStudent = await _studentReposityGateway.Delete(studentId);
+        var deleteStudent = await _studentReposityGateway.Delete(studentId);
 
-       return deleteStudent!;
+        return deleteStudent!;
     }
 
     public async Task<List<StudentDTO>> GetAll()
@@ -83,8 +91,8 @@ public class StudentCrudService : IStudentCrudUseCase
     private async Task VerifyDocumentsIsUnique(StudentDTO student)
     {
         var rgAlreadyExist = await _studentReposityGateway.GetByRg(student.Rg) != null;
-        var cpfAlreadyExist =  await _studentReposityGateway.GetByCpf(student.Cpf) != null;
-        
+        var cpfAlreadyExist = await _studentReposityGateway.GetByCpf(student.Cpf) != null;
+
         if (cpfAlreadyExist)
         {
             throw new StudentDocumentException(404, "Student with CPF already exists.");

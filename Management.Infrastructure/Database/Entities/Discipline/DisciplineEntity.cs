@@ -1,3 +1,4 @@
+using Management.Domain.Domains.DTO.Discipline;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -22,4 +23,11 @@ public class DisciplineEntity
 
     [BsonRequired] 
     public required List<string> AveragesId { get; set; } = [];
+    
+    public void UpdateByDisciplineDto(DisciplineUpdateDTO disciplineUpdateDto)
+    { 
+        Name = disciplineUpdateDto.Name;
+        TeacherId = disciplineUpdateDto.TeacherId;
+        BimonthlyId = disciplineUpdateDto.BimonthlyId;
+    }
 }

@@ -7,4 +7,6 @@ public class StudentUpdateDTO
     public required string FatherName { get; set; }
     public required string MotherName { get; set; }
     public required string ClassroomId { get; set; }
+    
+    
 }

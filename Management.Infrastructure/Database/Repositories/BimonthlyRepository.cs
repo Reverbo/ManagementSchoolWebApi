@@ -15,7 +15,6 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
     private readonly IMongoCollection<BimonthlyEntity> _bimonthly;
     private readonly IDisciplineRepositoryGateway _discipline;
     private readonly IMapper _mapper;
-
     public BimonthlyRepository(IMongoDatabase database, IMapper mapper, IDisciplineRepositoryGateway discipline)
     {
         _bimonthly = database.GetCollection<BimonthlyEntity>("bimonthlys");
@@ -43,9 +42,9 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         {
             return null;
         }
-
-        bimonthlyEntity.StartDate = bimonthly.StartDate;
-        bimonthlyEntity.EndDate = bimonthly.EndDate;
+        
+        bimonthlyEntity.UpdateByBimonthlyDto(bimonthly);
+       
 
         var result = await _bimonthly.ReplaceOneAsync(item => item.Id == objectId, bimonthlyEntity);
 
@@ -68,24 +67,24 @@ public class BimonthlyRepository : IBimonthlyRepositoryGateway
         string bimonthlyId)
     {
         var objectId = new ObjectId(bimonthlyId);
-        var existingBimonthly = await _bimonthly.Find(item => item.Id == objectId).FirstOrDefaultAsync();
+        var bimonthlyEntity = await _bimonthly.Find(item => item.Id == objectId).FirstOrDefaultAsync();
 
-        if (existingBimonthly == null)
+        if (bimonthlyEntity == null)
         {
             return null;
         }
 
         foreach (var disciplineId in bimonthlyDto.DisciplinesId)
         {
-            existingBimonthly.DisciplinesId.Add(disciplineId);
+            bimonthlyEntity.DisciplinesId.Add(disciplineId);
         }
 
-        var disciplineList = await GetDisciplineList(existingBimonthly.DisciplinesId);
+        var disciplineList = await GetDisciplineList(bimonthlyEntity.DisciplinesId);
 
-        var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(existingBimonthly);
+        var bimonthlyResponse = _mapper.Map<BimonthlyResponseEntity>(bimonthlyEntity);
         bimonthlyResponse.Disciplines = disciplineList;
 
-        var result = await _bimonthly.ReplaceOneAsync(item => item.Id == objectId, existingBimonthly);
+        var result = await _bimonthly.ReplaceOneAsync(item => item.Id == objectId, bimonthlyEntity);
 
         if (!result.IsAcknowledged)
         {
